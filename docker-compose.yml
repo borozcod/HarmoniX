@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  client:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - "reactapp:/app/node_modules"
+      - "./client:/app"
+volumes:
+  reactapp:
