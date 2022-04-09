@@ -1,7 +1,7 @@
 # Set node as the image
 FROM node:16.14.2-alpine
 
-# Set where the working direcory is
+# Set where the working directory is
 WORKDIR /app
 
 # Add dependency descriptions
