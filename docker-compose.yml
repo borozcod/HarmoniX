@@ -3,10 +3,21 @@ services:
   client:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - "reactapp:/app/node_modules"
+      - "/app/node_modules"
       - "./client:/app"
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/app/node_modules"
+      - "./server:/app"
 volumes:
   reactapp:
+  nodeapp:
