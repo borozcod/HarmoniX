@@ -5,13 +5,13 @@ FROM node:16.14.2-alpine
 WORKDIR /app
 
 # Add dependency descriptions
-COPY ./client/package.json /app
-COPY ./client/package-lock.json /app
+COPY ./package.json .
+COPY ./package-lock.json .
 # install dependencies
 RUN npm install
 
 # Copy the files from my disk to the container
-COPY ./client /app
+COPY . .
 
 # Start the react app
 CMD ["npm", "start"]
