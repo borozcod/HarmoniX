@@ -8,23 +8,21 @@ const GetRequest = () =>{
 
     const [message, setMessage] = useState('')
     
-      useEffect(() => {      
+      useEffect(() => {
           axios.get(`http://localhost:8080/`)
             .then(res => {
                 const message2 = res.data;
-                setMessage({ message2 });
+                setMessage( message2 );
                 console.log(message2)
                 }
             )
-
         }, []
     )
 
-
       return (
-        <ul>
+        <>
           {message}
-        </ul>
+        </>
       )
 }
 
