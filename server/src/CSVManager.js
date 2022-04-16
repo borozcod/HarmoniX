@@ -1,22 +1,20 @@
 // class LoadCSV
 
 class CSVManager {
-    constructor(path) {
-        this.data = [];
-        this.path = path;
-        this.read();
-    }
-
-    set data(newData) {
-        this.data = newData;
-    }
-
-    get data() {
-        return this.data;
+    constructor(file="") {
+        this.data;
+        this.file = file;
     }
 
     read() {
         console.log('reading');
+    }
+
+    parse(line) {
+        var regex = /(?:"[^"]+")|[^,]+/g;
+        var line1 = new String(line);
+        var found = line1.match(regex);
+        return found;
     }
 }
 
