@@ -1,13 +1,39 @@
 // class LoadCSV
+const fs = require('fs');
+const readline = require('readline');
 
 class CSVManager {
     constructor(file="") {
-        this.data;
+        this.headers = [];
+        this.data = [];
         this.file = file;
     }
 
+    getData() {
+        return data;
+    }
+
     read() {
-        console.log('reading');
+        return new Promise((resolve, reject) => {
+
+            const rl = readline.createInterface({
+                input: fs.createReadStream(this.file)
+            });
+
+            var headers = true;
+
+            rl.on('line', (line) => {
+                const parsedData = this.parse(line);
+                if(headers){
+                    this.headers.push(parsedData);
+                    headers = false;
+                }else{
+                    this.data.push(parsedData);
+                }
+            }).on('close', () => {
+                resolve();
+            });
+        });
     }
 
     parse(line) {
