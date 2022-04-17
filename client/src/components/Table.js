@@ -2,6 +2,7 @@ import React from 'react'
 import datas from '../mock-data.json'
 //import {useState} from 'react'
 import {MDBDataTable} from 'mdbreact'
+import Search from "./Search"
 
 
 const Table = () => {
@@ -148,6 +149,8 @@ const Table = () => {
         maxHeight='300px'
         data={data}
         />
+
+        <Search/>
     </div>
 
   );
