@@ -151,6 +151,7 @@ const Table = () => {
         />
 
         <Search/>
+        
     </div>
 
   );
