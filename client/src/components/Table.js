@@ -1,13 +1,23 @@
 import React from 'react'
-import datas from '../mock-data.json'
+import json_data from '../mock-data.json'
 //import {useState} from 'react'
 import {MDBDataTable} from 'mdbreact'
 import Search from "./Search"
+
+import axios from 'axios';
+import {useEffect} from 'react'
+import {useState} from 'react'
 
 
 const Table = () => {
 
   //const [musicInfo, setMusicInfo] = useState();
+
+  const [rows, setRows] = useState(json_data);
+  
+  const onSearchHandler = (newData) => {
+	  setRows(newData)
+  }
 
   const data = {
       columns:[
@@ -135,7 +145,7 @@ const Table = () => {
 
       ],
 
-      rows: datas
+      rows: rows
   };
     
   return (
@@ -150,7 +160,9 @@ const Table = () => {
         data={data}
         />
 
-        <Search/>
+        <Search
+			onSearchHandler={onSearchHandler}
+		/>
         
     </div>
 
