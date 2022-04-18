@@ -81,10 +81,11 @@ class CSVManager {
         return found;
     }
 
-    search(key, query) {
+    search(key, value) {
         const matches = [];
         this.data.forEach(element => {
-            if(element[key] === query) {
+            //if(element[key] === value) {
+			if (element[key].indexOf(value) !== -1) {
                 matches.push(element);
             }
         });
