@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node index.js",
-    "dev": "./node_modules/nodemon/bin/nodemon.js index.js"
+    "dev": "./node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"
   },
   "keywords": [],
   "author": "",
