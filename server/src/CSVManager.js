@@ -85,7 +85,9 @@ class CSVManager {
         const matches = [];
         this.data.forEach(element => {
             //if(element[key] === value) {
-			if (element[key].indexOf(value) !== -1) {
+			const track_value = element[key].toLowerCase()
+			value = value.toLowerCase()
+			if (track_value.indexOf(value) !== -1) {
                 matches.push(element);
             }
         });
