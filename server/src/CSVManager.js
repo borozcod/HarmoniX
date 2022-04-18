@@ -17,14 +17,14 @@ class CSVManager {
         return new Promise((resolve, reject) => {
             this.data = [];
 
-            if (fs.existsSync(__dirname + '/../files/tracks.json') && fs.existsSync(__dirname + '/../files/headers.json')) {
-                this.data = JSON.parse( fs.readFileSync(__dirname + '/../files/tracks.json').toString().split("\n"))
-                this.headers = JSON.parse(fs.readFileSync(__dirname + '/../files/headers.json').toString().split("\n"));
+            // if (fs.existsSync(__dirname + '/../files/tracks.json') && fs.existsSync(__dirname + '/../files/headers.json')) {
+            //     this.data = JSON.parse( fs.readFileSync(__dirname + '/../files/tracks.json').toString().split("\n"))
+            //     this.headers = JSON.parse(fs.readFileSync(__dirname + '/../files/headers.json').toString().split("\n"));
 
-                resolve();
+            //     resolve();
 
-                return;
-            }
+            //     return;
+            // }
 
             const rl = readline.createInterface({
                 input: fs.createReadStream(this.file)
