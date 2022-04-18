@@ -19,5 +19,4 @@ services:
       - "/app/node_modules"
       - "./server:/app"
 volumes:
-  reactapp:
-  nodeapp:
+    node_modules:

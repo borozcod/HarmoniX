@@ -5,13 +5,13 @@ FROM node:16.14.2-alpine
 WORKDIR /app
 
 # Add dependency descriptions
-COPY ./package.json .
-COPY ./package-lock.json .
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
 # install dependencies
 RUN npm install
 
-COPY ./ .
+COPY . .
 
 # Start the node app
-CMD ["node", "index.js"]
+CMD ["npm", "dev"]
