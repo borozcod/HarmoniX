@@ -1,5 +1,11 @@
 var express = require('express')
 var cors = require('cors')
+const CSVManager = require('./src/CSVManager');
+const csvMng = new CSVManager(__dirname + "/files/tracks.csv");
+csvMng.read().then(()=> {
+  console.log("added");
+})
+
 
 var app = express()
 var port = 8080
