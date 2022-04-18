@@ -4,8 +4,8 @@ import json_data from '../mock-data.json'
 import {MDBDataTable} from 'mdbreact'
 import Search from "./Search"
 
-import axios from 'axios';
-import {useEffect} from 'react'
+// import axios from 'axios';
+// import {useEffect} from 'react'
 import {useState} from 'react'
 
 
@@ -130,8 +130,8 @@ const Table = () => {
             width: 150
         },
         {
-            label: 'Temp',
-            field: 'temp',
+            label: 'Tempo',
+            field: 'tempo',
             sort: 'asc',
             width: 150
         },

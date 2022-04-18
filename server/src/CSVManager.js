@@ -50,7 +50,7 @@ class CSVManager {
                         danceability: parsedData[8], 
                         energy: parsedData[9], 
                         key: parsedData[10], 
-                        loudness: parsedData[1], 
+                        loudness: parsedData[11], 
                         mode: parsedData[12], 
                         speechiness: parsedData[13], 
                         acousticness: parsedData[14], 
@@ -58,7 +58,7 @@ class CSVManager {
                         liveness: parsedData[16], 
                         valence: parsedData[17], 
                         tempo: parsedData[18], 
-                        time_signatur: parsedData[19]
+                        time_signature: parsedData[19]
                     }
                     this.data.push(obj);
                 }
