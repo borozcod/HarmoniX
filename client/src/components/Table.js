@@ -1,22 +1,35 @@
 import React from 'react'
 import json_data from '../mock-data.json'
-//import {useState} from 'react'
 import {MDBDataTable, MDBFormInline} from 'mdbreact'
 import Search from "./Search"
+import EditButton from './EditButton'
 
-import axios from 'axios';
-import {useEffect} from 'react'
+
 import {useState} from 'react'
 
 
 const Table = () => {
 
-  //const [musicInfo, setMusicInfo] = useState();
 
   const [rows, setRows] = useState(json_data);
+
+  const [editable, setEditable] = useState(true);
+  const [text, setText] = useState('Edit')
   
   const onSearchHandler = (newData) => {
 	  setRows(newData)
+  }
+
+  const onClick = () =>{
+    setEditable(!editable);
+    if(editable){
+        setText("Edit");
+    }
+    else{
+        setText("Save")
+    }
+
+    console.log({rows})
   }
 
   const data = {
@@ -152,13 +165,15 @@ const Table = () => {
 
 
     <div>
+        <EditButton onClick = {onClick} text = {text}/>
+        
         <MDBDataTable 
         scrollX
         bordered
         striped
         maxHeight='300px'
         data={data}
-        contentEditable = 'true'
+        contentEditable = {editable}
         />
 
         <Search
