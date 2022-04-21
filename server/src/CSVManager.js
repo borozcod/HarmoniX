@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const readline = require('readline');
 
 /**
@@ -42,15 +43,6 @@ class CSVManager {
     read() {
         return new Promise((resolve, reject) => {
             this.data = [];
-
-            // if (fs.existsSync(__dirname + '/../files/tracks.json') && fs.existsSync(__dirname + '/../files/headers.json')) {
-            //     this.data = JSON.parse( fs.readFileSync(__dirname + '/../files/tracks.json').toString().split("\n"))
-            //     this.headers = JSON.parse(fs.readFileSync(__dirname + '/../files/headers.json').toString().split("\n"));
-
-            //     resolve();
-
-            //     return;
-            // }
 
             const rl = readline.createInterface({
                 input: fs.createReadStream(this.file)
@@ -98,6 +90,39 @@ class CSVManager {
                 resolve();
             });
         });
+    }
+
+    /**
+     * Backup the file provided to CSVManager and add current timestamp. The file extension will be kept the same
+     * @param {String} timestamp - the timestamp appended to the end of the filename
+     * @return {Promise} 
+     * @memberof CSVManager
+     */
+    async backup(timestamp = Date.now()) {
+        // See if the file exists
+        return new Promise((resolve, reject) => {
+
+            fs.access(this.file, fs.constants.F_OK, async (err) => {
+                if (err){
+                    reject(`${file} does not exist`);
+                    return;
+                }
+
+                // Get the file information
+                const filename = path.parse(this.file).name;
+                const ext = path.parse(this.file).ext;
+
+
+                fs.copyFile(this.file, `${__dirname}/../backup/${filename}-${timestamp}${ext}`, (err) => {
+                    if (err){
+                        reject(`failed to copy ${file}. ${err}`);
+                        return;
+                    }
+                    resolve('file copied');
+                });
+
+            });
+        })
     }
 
     /**
