@@ -1,18 +1,44 @@
-// class LoadCSV
 const fs = require('fs');
 const readline = require('readline');
 
+/**
+ * This class requires you to provide the csv file you would like to parse.
+ *
+ * @class CSVManager
+ */
 class CSVManager {
+    /** @constructs */
     constructor(file="") {
         this.headers = [];
         this.data = [];
         this.file = file;
     }
 
+    /**
+     * Getter for the data
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
     getData() {
-        return data;
+        return this.data;
+    }
+    /**
+     * Getter for the headers
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
+    getHeaders() {
+        return this.headers;
     }
 
+    /**
+     * Read the csv and store it in memory as an array. The promise is resolved once the entire file is read
+     *
+     * @return {Promise} 
+     * @memberof CSVManager
+     */
     read() {
         return new Promise((resolve, reject) => {
             this.data = [];
@@ -74,6 +100,13 @@ class CSVManager {
         });
     }
 
+    /**
+     * Given a coma separated string, this function will split it into an array.
+     * The regex ignores commas found inside of ""
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
     parse(line) {
         var regex = /(?:"[^"]+")|[^,]+/g;
         var line1 = new String(line);
@@ -81,13 +114,20 @@ class CSVManager {
         return found;
     }
 
+    /**
+     * Linear search of all the rows and returns the matches for a specified column
+     * @param {String} key - The column of the csv you would like to search
+     * @param {String} value - The value you are searching for
+     * @return {Array} 
+     * @memberof CSVManager
+     */
     search(key, value) {
         const matches = [];
         this.data.forEach(element => {
             //if(element[key] === value) {
-			const track_value = element[key].toLowerCase()
-			value = value.toLowerCase()
-			if (track_value.indexOf(value) !== -1) {
+            const track_value = element[key].toLowerCase()
+            value = value.toLowerCase()
+            if (track_value.indexOf(value) !== -1) {
                 matches.push(element);
             }
         });
