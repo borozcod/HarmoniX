@@ -21,6 +21,10 @@ app.get('/search', function (req, res) {
 	res.send(data);
 })
 
+app.post('/import', function (req, res) {
+  console.log(req);
+})
+
 app.listen(port, function () {
   console.log(`app listening on port ${port}!`)
 })
