@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - "/app/node_modules"
+      - "./client:/app"
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/app/node_modules"
+      - "./server:/app"
+volumes:
+    node_modules:

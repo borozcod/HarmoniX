@@ -1,0 +1,30 @@
+id,name,popularity,duration_ms,explicit,artists,id_artists,release_date,danceability,energy,key,loudness,mode,speechiness,acousticness,instrumentalness,liveness,valence,tempo,time_signature
+35iwgR4jXetI318WEWsa1Q,Carve,6,126903,0,['Uli'],['45tIt06XoI0Iio4LBEVpls'],1922-02-22,0.645,0.445,0,-13.338,1,0.451,0.674,0.744,0.151,0.127,104.851,3
+021ht4sdgPcrDgSk7JTbKY,Capítulo 2.16 - Banquero Anarquista,0,98200,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.695,0.263,0,-22.136,1,0.957,0.797,0.0,0.148,0.655,102.009,1
+07A5yehtSnoedViJAZkNnc,Vivo para Quererte - Remasterizado,0,181640,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-21,0.434,0.177,1,-21.18,1,0.0512,0.994,0.0218,0.212,0.457,130.418,5
+08FmqUhxtyLTn6pAh6bk45,El Prisionero - Remasterizado,0,176907,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-21,0.321,0.0946,7,-27.961,1,0.0504,0.995,0.918,0.104,0.397,169.98,3
+08y9GfoqCWfOGsKdwojr5e,Lady of the Evening,0,163080,0,['Dick Haymes'],['3BiJGZsyX9sJchTqcSA7Su'],1922,0.402,0.158,3,-16.9,0,0.039,0.989,0.13,0.311,0.196,103.22,4
+0BRXJHRNGQ3W4v9frnSfhu,Ave Maria,0,178933,0,['Dick Haymes'],['3BiJGZsyX9sJchTqcSA7Su'],1922,0.227,0.261,5,-12.343,1,0.0382,0.994,0.247,0.0977,0.0539,118.891,4
+0Dd9ImXtAtGwsmsAD69KZT,La Butte Rouge,0,134467,0,['Francis Marty'],['2nuMRGzeJ5jJEKlfS7rZ0W'],1922,0.51,0.355,4,-12.833,1,0.124,0.965,0.0,0.155,0.727,85.754,5
+0IA0Hju8CAgYfV1hwhidBH,La Java,0,161427,0,['Mistinguett'],['4AxgXfD7ISvJSTObqm4aIE'],1922,0.563,0.184,4,-13.757,1,0.0512,0.993,1.55e-05,0.325,0.654,133.088,3
+0IgI1UCz84pYeVetnl1lGP,Old Fashioned Girl,0,310073,0,['Greg Fieler'],['5nWlsH5RDgFuRAiDeOFVmf'],1922,0.488,0.475,0,-16.222,0,0.0399,0.62,0.00645,0.107,0.544,139.952,4
+0JV4iqw2lSKJaHBQZ0e5zK,Martín Fierro - Remasterizado,0,181173,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-29,0.548,0.0391,6,-23.228,1,0.153,0.996,0.933,0.148,0.612,75.595,3
+0OYGe21oScKJfanLyM7daU,Capítulo 2.8 - Banquero Anarquista,0,99100,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.676,0.235,11,-22.447,0,0.96,0.794,0.0,0.21,0.724,96.777,3
+0PE42H6tslQuyMMiGRiqtb,Capítulo 2.25 - Banquero Anarquista,0,132700,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.75,0.229,2,-22.077,1,0.955,0.578,0.0,0.314,0.531,102.629,3
+0PH9AACae1f957JAavhOl2,Lazy Boi,0,157333,0,['Uli'],['45tIt06XoI0Iio4LBEVpls'],1922-02-22,0.298,0.46,1,-18.645,1,0.453,0.521,0.856,0.436,0.402,87.921,4
+0QiT0Oo5QdLXdFw6RDOj7h,Tu Verras Montmartre,1,186800,0,['Lucien Boyer'],['4mSouLpNSEY1d7OdIjlFiP'],1922,0.703,0.28,0,-15.39,1,0.174,0.995,6.84e-05,0.163,0.897,127.531,4
+0TWsNj5iSvbMTtbEDP7A4V,Elle Prend L'boulevard Magenta,0,172027,0,['Félix Mayol'],['7DIlOK9L8d0IQ7Xk8aJxDW'],1922,0.709,0.289,2,-14.978,1,0.18,0.967,0.0,0.119,0.84,107.515,4
+0cC9CYjLRIzwchQ42xVnq6,Capítulo 1.23 - Banquero Anarquista,0,96600,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.687,0.198,4,-24.264,0,0.962,0.754,0.0,0.197,0.478,78.453,1
+0eb1PfHxT6HnXvvdUOzmME,Capítulo 1.18 - Banquero Anarquista,0,103200,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.8,0.171,8,-24.384,1,0.953,0.67,0.0,0.123,0.693,59.613,3
+0grXU6GKVNCVMJbseA0Uhe,Capítulo 1.10 - Banquero Anarquista,0,95800,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.7,0.208,2,-23.874,1,0.956,0.691,0.0,0.441,0.613,85.739,1
+0kCB1bDVBC8gWCFcnJyIZc,Ca C'est Une Chose,0,188000,0,['Victor Boucher'],['7vVR02JJYvsEAEPNHQMx0Q'],1922,0.352,0.334,5,-13.038,1,0.0594,0.996,0.00746,0.36,0.414,76.403,4
+0l3BQsVJ7F76wlN5QhJzaP,El Vendaval - Remasterizado,0,153533,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-21,0.37,0.372,2,-17.138,1,0.0865,0.985,0.000681,0.929,0.753,159.669,4
+0pXUGQcBxfoQXg2e7G9Wwk,Ta Bouche,0,180933,0,['Jeanne Saint Bonnet'],['4ZACxcKyd37u9WSxCAvLP2'],1922,0.335,0.304,7,-14.062,1,0.0506,0.996,0.0832,0.102,0.215,76.576,3
+0wA4YFw7ZNnpasfjVgJxpv,Capítulo 1.22 - Banquero Anarquista,0,109100,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.704,0.244,0,-25.353,1,0.959,0.728,0.0,0.168,0.644,84.489,3
+0xJCJ9XSNcdTIz0QKmhtEn,La Maleva - Remasterizado,0,181440,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-29,0.339,0.0958,8,-26.944,1,0.053,0.994,0.969,0.123,0.219,86.279,3
+0zyKYuXwmo8eR3BBxoxVEO,Capítulo 2.3 - Banquero Anarquista,0,113200,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.655,0.214,0,-23.337,1,0.962,0.665,0.0,0.279,0.761,76.087,1
+10XXG7gG75jIREUaModzOY,Capítulo 1.2 - Banquero Anarquista,0,109500,0,['Fernando Pessoa'],['14jtPCOoNZwquk5wd9DxrY'],1922-06-01,0.673,0.239,5,-22.552,1,0.96,0.539,0.0,0.633,0.644,83.532,4
+10u9ZWsOnhEyqFJCC2rQVy,J'ai Vendu Mon Âme,0,168000,0,['Adolphe Bérard'],['4avV2NAdyMOjy4qqYfKNR7'],1922,0.582,0.152,10,-13.742,1,0.0914,0.972,0.0,0.31,0.546,95.779,3
+112adU33vo4C1eRZct2hWy,Nuits De Chine,4,180800,0,['Louis Lynel'],['28pbIiOohRRZjqpAM9iqYM'],1922,0.42,0.288,7,-14.005,1,0.0701,0.994,0.000216,0.196,0.4,139.575,3
+15BEv0mKGqHHxyDAcLJ7ei,En la Huella del Querer - Remasterizado,0,150160,0,['Ignacio Corsini'],['5LiOoJbxVSAMkBS2fUm3X2'],1922-03-29,0.373,0.176,4,-22.045,0,0.0703,0.994,0.866,0.157,0.383,106.595,1
+1CZkVPFUK7wO1sMOlBHxJr,C'est La Mode Et Voila Tout,0,180400,0,['Perchicot'],['2kBMqLbeN3STYqwPqJW45j'],1922,0.592,0.408,10,-11.585,0,0.271,0.993,1.54e-06,0.413,0.766,81.126,4
