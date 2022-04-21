@@ -1,7 +1,7 @@
 import React from 'react'
 import json_data from '../mock-data.json'
 //import {useState} from 'react'
-import {MDBDataTable} from 'mdbreact'
+import {MDBDataTable, MDBFormInline} from 'mdbreact'
 import Search from "./Search"
 
 import axios from 'axios';
@@ -145,7 +145,7 @@ const Table = () => {
 
       ],
 
-      rows: rows
+      rows:rows
   };
     
   return (
@@ -158,11 +158,14 @@ const Table = () => {
         striped
         maxHeight='300px'
         data={data}
+        contentEditable = 'true'
         />
 
         <Search
 			onSearchHandler={onSearchHandler}
 		/>
+
+        
         
     </div>
 
