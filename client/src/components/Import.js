@@ -8,20 +8,22 @@ const InputFile = () => {
 
     const handleChange = (selectorFiles) =>
     {
-        console.log(selectorFiles);
         formData.append('csv', selectorFiles);
-        for (var key of formData.entries()) {
-            console.log(key[0] + ', ' + key[1]);
-        }
-        setFile(selectorFiles.name);
-    }
-
-    const uploadPost = () => {
         axios.post(`http://localhost:8080/import`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
         })
+        setFile(selectorFiles.name);
+    }
+
+    // TODO: FormData needs to be sent here 
+    const uploadPost = () => {
+        // axios.post(`http://localhost:8080/import`, formData, {
+        //     headers: {
+        //       'Content-Type': 'multipart/form-data'
+        //     }
+        // })
     }
 
     return (
