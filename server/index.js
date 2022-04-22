@@ -6,7 +6,7 @@ const multer  = require('multer')
 const upload = multer({ dest: 'files/' })
 const CSVManager = require('./src/CSVManager');
 
-const csvMng = new CSVManager(__dirname + "/files/tracks.csv");
+const csvMng = new CSVManager(__dirname + "/files/tracks-small.csv");
 csvMng.read().then(()=> {
   console.log("added in memory");
 })
@@ -38,7 +38,7 @@ app.post('/import', upload.single('csv'), async function (req, res) {
 
   await csvMng.backup();
 
-  fs.renameSync(file.path, __dirname + '/files/tracks.csv');
+  fs.renameSync(file.path, __dirname + '/files/tracks-small.csv');
 
   res.sendStatus(200);
 })
