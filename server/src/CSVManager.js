@@ -58,7 +58,7 @@ class CSVManager {
                         liveness: parsedData[16], 
                         valence: parsedData[17], 
                         tempo: parsedData[18], 
-                        time_signatur: parsedData[19]
+                        time_signature: parsedData[19]
                     }
                     this.data.push(obj);
                 }
