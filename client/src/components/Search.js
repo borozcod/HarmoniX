@@ -75,7 +75,7 @@ const Search = ({onSearchHandler}) => {
                 <option value = 'instrumentalness'>Instrumentalness</option>
                 <option value = 'liveness'>Liveness</option>
                 <option value = 'valence'>Valence</option>
-                <option value = 'tempo'>Temp</option>
+                <option value = 'tempo'>Tempo</option>
                 <option value = 'time_signature'>Time signature</option>
 
                 

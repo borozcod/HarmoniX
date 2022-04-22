@@ -1,30 +1,48 @@
-// class LoadCSV
 const fs = require('fs');
+const path = require('path');
 const readline = require('readline');
 
+/**
+ * This class requires you to provide the csv file you would like to parse.
+ *
+ * @class CSVManager
+ */
 class CSVManager {
+    /** @constructs */
     constructor(file="") {
         this.headers = [];
         this.data = [];
         this.file = file;
     }
 
+    /**
+     * Getter for the data
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
     getData() {
-        return data;
+        return this.data;
+    }
+    /**
+     * Getter for the headers
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
+    getHeaders() {
+        return this.headers;
     }
 
+    /**
+     * Read the csv and store it in memory as an array. The promise is resolved once the entire file is read
+     *
+     * @return {Promise} 
+     * @memberof CSVManager
+     */
     read() {
         return new Promise((resolve, reject) => {
             this.data = [];
-
-            // if (fs.existsSync(__dirname + '/../files/tracks.json') && fs.existsSync(__dirname + '/../files/headers.json')) {
-            //     this.data = JSON.parse( fs.readFileSync(__dirname + '/../files/tracks.json').toString().split("\n"))
-            //     this.headers = JSON.parse(fs.readFileSync(__dirname + '/../files/headers.json').toString().split("\n"));
-
-            //     resolve();
-
-            //     return;
-            // }
 
             const rl = readline.createInterface({
                 input: fs.createReadStream(this.file)
@@ -50,7 +68,7 @@ class CSVManager {
                         danceability: parsedData[8], 
                         energy: parsedData[9], 
                         key: parsedData[10], 
-                        loudness: parsedData[1], 
+                        loudness: parsedData[11], 
                         mode: parsedData[12], 
                         speechiness: parsedData[13], 
                         acousticness: parsedData[14], 
@@ -74,6 +92,46 @@ class CSVManager {
         });
     }
 
+    /**
+     * Backup the file provided to CSVManager and add current timestamp. The file extension will be kept the same
+     * @param {String} timestamp - the timestamp appended to the end of the filename
+     * @return {Promise} 
+     * @memberof CSVManager
+     */
+    async backup(timestamp = Date.now()) {
+        // See if the file exists
+        return new Promise((resolve, reject) => {
+
+            fs.access(this.file, fs.constants.F_OK, async (err) => {
+                if (err){
+                    reject(`${file} does not exist`);
+                    return;
+                }
+
+                // Get the file information
+                const filename = path.parse(this.file).name;
+                const ext = path.parse(this.file).ext;
+
+
+                fs.copyFile(this.file, `${__dirname}/../backup/${filename}-${timestamp}${ext}`, (err) => {
+                    if (err){
+                        reject(`failed to copy ${file}. ${err}`);
+                        return;
+                    }
+                    resolve('file copied');
+                });
+
+            });
+        })
+    }
+
+    /**
+     * Given a coma separated string, this function will split it into an array.
+     * The regex ignores commas found inside of ""
+     *
+     * @return {Array} 
+     * @memberof CSVManager
+     */
     parse(line) {
         var regex = /(?:"[^"]+")|[^,]+/g;
         var line1 = new String(line);
@@ -81,10 +139,20 @@ class CSVManager {
         return found;
     }
 
-    search(key, query) {
+    /**
+     * Linear search of all the rows and returns the matches for a specified column
+     * @param {String} key - The column of the csv you would like to search
+     * @param {String} value - The value you are searching for
+     * @return {Array} 
+     * @memberof CSVManager
+     */
+    search(key, value) {
         const matches = [];
         this.data.forEach(element => {
-            if(element[key] === query) {
+            //if(element[key] === value) {
+            const track_value = element[key].toLowerCase()
+            value = value.toLowerCase()
+            if (track_value.indexOf(value) !== -1) {
                 matches.push(element);
             }
         });
