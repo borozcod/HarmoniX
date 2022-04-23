@@ -2,6 +2,7 @@ import React from 'react'
 import json_data from '../mock-data.json'
 import Search from "./Search"
 import EditButton from './EditButton'
+import ReadOnlyRow from './ReadOnlyRow'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +14,7 @@ import Paper from '@mui/material/Paper';
 
 
 import {useState} from 'react'
-import { minHeight } from '@mui/system'
+
 
 
 const DataTable = () => {
@@ -147,20 +148,11 @@ const DataTable = () => {
                 </TableHead>
                 <TableBody>
                 {rows
-                    .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                    .map((row) => (
+                      <ReadOnlyRow rows = {row}/>
+                    )
+                      
+              )}
                 </TableBody>
             </Table>
         </TableContainer>
