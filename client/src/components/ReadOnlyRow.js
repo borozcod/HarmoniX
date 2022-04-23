@@ -1,8 +1,11 @@
 import React from 'react'
 
-const ReadOnlyRow = ({rows}) => {
+const ReadOnlyRow = ({rows, handleEditClick}) => {
   return (
     <tr>
+      <td>
+        <button type='button' onClick={(event)=> handleEditClick(event,rows)}>Edit</button>
+      </td>
       <td>{rows.id}</td>
       <td>{rows.name}</td>
       <td>{rows.popularity}</td>
