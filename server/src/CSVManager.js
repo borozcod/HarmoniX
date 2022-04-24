@@ -115,7 +115,7 @@ class CSVManager {
 
                 fs.copyFile(this.file, `${__dirname}/../backup/${filename}-${timestamp}${ext}`, (err) => {
                     if (err){
-                        reject(`failed to copy ${file}. ${err}`);
+                        reject(`failed to copy ${this.file}. ${err}`);
                         return;
                     }
                     resolve('file copied');
@@ -188,7 +188,7 @@ class CSVManager {
             csvString += Object.values(rows).join(',');
         });
         // if this get's to long we can try and us appendFileSync
-        fs.writeFileSync(__dirname + '/../files/tracks.csv', csvString);
+        fs.writeFileSync(this.file, csvString);
     }
 }
 
