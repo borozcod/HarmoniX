@@ -52,7 +52,38 @@ app.post('/update', async function(req,res){
 
   //console.log(form);
   //console.log(form.id);
-  csvMng.update(form.id,form)
+  csvMng.update(form);
+
+  res.sendStatus(200);
+})
+
+app.get('/update-csv', function(req,res){
+
+  const testObject = {
+    id: '0BRXJHRNGQ3W4v9frnSfhu',
+    name: 'Ave Mario',
+    popularity: '089',
+    duration_ms: '178933',
+    explicit: '0',
+    artists: "['Dick Haymes']",
+    id_artists: "['3BiJGZsyX9sJchTqcSA7Su']",
+    release_date: '1922',
+    danceability: '0.227',
+    energy: '0.261',
+    key: '5',
+    loudness: '-12.343',
+    mode: '1',
+    speechiness: '0.0382',
+    acousticness: '0.994',
+    instrumentalness: '0.247',
+    liveness: '0.0977',
+    valence: '0.0539',
+    tempo: '118.891',
+    time_signature: '4'
+  }
+
+  csvMng.update(testObject);
+  csvMng.updateCSV()
 
   res.sendStatus(200)
 })
