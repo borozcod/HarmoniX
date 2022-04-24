@@ -159,6 +159,16 @@ class CSVManager {
 
         return matches;
     }
+
+    update(key,row){
+        this.data.forEach(element=>{
+            if(element.id === row.id){
+                const index = this.data.indexOf(element);
+                this.data[index] = row;
+                console.log('updated song');
+            }
+        })
+    }
 }
 
 module.exports = CSVManager;

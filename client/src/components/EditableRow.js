@@ -1,10 +1,11 @@
 import React from 'react'
 
-const EditableRow = ({editFormData, handleEditFormChange}) => {
+const EditableRow = ({editFormData, handleEditFormChange, handleEditCancel}) => {
   return (
     <tr>
       <td>
         <button type = 'submit'>Save</button>
+        <button type='button' onClick={handleEditCancel}>Cancel</button>
       </td>
 
       <td>

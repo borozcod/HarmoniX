@@ -2,6 +2,7 @@ import React from 'react'
 import json_data from '../mock-data.json'
 import Search from "./Search"
 import ReadOnlyRow from './ReadOnlyRow'
+import EditableRow from './EditableRow'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,7 +13,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import {useState, Fragment} from 'react'
-import EditableRow from './EditableRow'
+
+import axios from 'axios';
+
 
 
 
@@ -223,6 +226,13 @@ const DataTable = () => {
 
     newRow[index] = editedrow
 
+    axios.post('http://localhost:8080/update', editedrow)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     setRows(newRow)
 
     setEditId(null)
@@ -230,6 +240,10 @@ const DataTable = () => {
     console.log(rows)
 }
 
+const handleEditCancel = (e) => {
+    e.preventDefault();
+    setEditId(null);
+}
 
     
   return (
@@ -259,7 +273,7 @@ const DataTable = () => {
                         .map((row) => (
                             <Fragment>
                                 {editId === row.id? 
-                                <EditableRow editFormData = {editFormData} handleEditFormChange = {handleEditFormChange} /> : 
+                                <EditableRow editFormData = {editFormData} handleEditFormChange = {handleEditFormChange} handleEditCancel= {handleEditCancel} /> : 
                                 <ReadOnlyRow rows = {row} handleEditClick = {handleEditClick}/>}
                                 
                             </Fragment>
