@@ -115,7 +115,7 @@ class CSVManager {
 
                 fs.copyFile(this.file, `${__dirname}/../backup/${filename}-${timestamp}${ext}`, (err) => {
                     if (err){
-                        reject(`failed to copy ${file}. ${err}`);
+                        reject(`failed to copy ${this.file}. ${err}`);
                         return;
                     }
                     resolve('file copied');
@@ -158,6 +158,37 @@ class CSVManager {
         });
 
         return matches;
+    }
+
+    update(row){
+        this.data.forEach(element=>{
+            if(element.id === row.id){
+                const index = this.data.indexOf(element);
+                this.data[index] = row;
+                console.log('updated song');
+            }
+        })
+    }
+
+
+    /**
+     * Update the csv file by overwriting the old csv.
+     * Before we try and overwriting the csv, we make a backup of the current csv
+     *
+     * @memberof CSVManager
+     */
+    updateCSV() {
+        this.backup();
+
+        var csvString = '';
+        csvString += this.headers.join(',');
+
+        this.data.forEach(rows=>{
+            csvString += '\n';
+            csvString += Object.values(rows).join(',');
+        });
+        // if this get's to long we can try and us appendFileSync
+        fs.writeFileSync(this.file, csvString);
     }
 }
 

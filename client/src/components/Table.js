@@ -1,8 +1,8 @@
 import React from 'react'
 import json_data from '../mock-data.json'
 import Search from "./Search"
-import EditButton from './EditButton'
 import ReadOnlyRow from './ReadOnlyRow'
+import EditableRow from './EditableRow'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,7 +12,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import {useState} from 'react'
+import {useState, Fragment} from 'react'
+
+import axios from 'axios';
+
 
 
 
@@ -21,23 +24,40 @@ const DataTable = () => {
 
   const [rows, setRows] = useState(json_data);
 
-  const [editable, setEditable] = useState(false);
-  const [text, setText] = useState('Edit')
+
+
+  //this is for edit row
+  const [editId, setEditId] = useState(null);
+  const [editFormData, setEditFormData] = useState(
+      {
+        id: "",
+        name: "", 
+        popularity: "",
+        duration_ms: "", 
+        explicit: "", 
+        artists: "", 
+        id_artists: "", 
+        release_date: "", 
+        danceability: "", 
+        energy: "", 
+        key: "", 
+        loudness: "", 
+        mode: "", 
+        speechiness: "", 
+        acousticness: "", 
+        instrumentalness: "", 
+        liveness: "", 
+        valence: "", 
+        tempo: "", 
+        time_signature: ""
+
+      }
+  )
   
   const onSearchHandler = (newData) => {
 	  setRows(newData)
   }
 
-  const onClick = () =>{
-    setEditable(!editable);
-    if(editable){
-        setText("Edit");
-    }
-    else{
-        setText("Save")
-    }
-    console.log({rows})
-  }
 
 
   const columns =  [
@@ -123,39 +143,148 @@ const DataTable = () => {
     },
 
   ]
+
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+
+    // get the name of the field from event
+    const fieldName = event.target.getAttribute("name");
+
+    //get the value store in the category
+    const fieldValue = event.target.value;
+
+    // copy existing data over
+    const newFormData = { ...editFormData};
+
+    // set index to new value
+    newFormData[fieldName] = fieldValue;
+
+    // update data
+    setEditFormData(newFormData)
+
+}
+
+  const handleEditClick = (event, row) => {
+      event.preventDefault();
+      setEditId(row.id);
+
+      const formValues = {
+          id: row.id,
+          name: row.name,
+          popularity: row.popularity,
+          duration_ms: row.duration_ms,
+          explicit: row.explicit,
+          artists: row.artists, 
+          id_artists: row.id_artists, 
+          release_date: row.release_date, 
+          danceability: row.danceability, 
+          energy: row.energy, 
+          key: row.key, 
+          loudness: row.loudness, 
+          mode: row.mode, 
+          speechiness: row.speechiness, 
+          acousticness: row.acousticness, 
+          instrumentalness: row.instrumentalness, 
+          liveness:row.liveness,
+          valence:row.valence,
+          tempo: row.tempo,
+          time_signature: row.time_signature
+      }
+
+      setEditFormData(formValues)
+  }
+
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+
+    const editedrow = {
+        id: editFormData.id,
+        name: editFormData.name,
+        popularity: editFormData.popularity,
+        duration_ms: editFormData.duration_ms,
+        explicit: editFormData.explicit,
+        artists: editFormData.artists, 
+        id_artists: editFormData.id_artists, 
+        release_date: editFormData.release_date, 
+        danceability: editFormData.danceability, 
+        energy: editFormData.energy, 
+        key: editFormData.key, 
+        loudness: editFormData.loudness, 
+        mode: editFormData.mode, 
+        speechiness: editFormData.speechiness, 
+        acousticness: editFormData.acousticness, 
+        instrumentalness: editFormData.instrumentalness, 
+        liveness:editFormData.liveness,
+        valence:editFormData.valence,
+        tempo: editFormData.tempo,
+        time_signature: editFormData.time_signature
+    }
+
+    const newRow = [...rows]
+
+    const index = rows.findIndex( (row)=> row.id === editId)
+
+    newRow[index] = editedrow
+
+    axios.post('http://localhost:8080/update', editedrow)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    setRows(newRow)
+
+    setEditId(null)
+
+    console.log(rows)
+}
+
+const handleEditCancel = (e) => {
+    e.preventDefault();
+    setEditId(null);
+}
+
     
   return (
 
 
     <div>
-        <EditButton onClick = {onClick} text = {text}/>
-        
-        <Paper sx = {{width: '100%'}}>
-        <TableContainer sx = {{maxHeight: 440}}>
-            <Table stickyHeader aria-label = "sticky table">
-                <TableHead>
-                    <TableRow>
-                        {columns.map((column) => (
-                          <TableCell 
-                            key = {column.id}
-                            style = {{minWidth: column.minWidth}}
-                          >
-                              {column.label}
-                          </TableCell>  
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                {rows
-                    .map((row) => (
-                      <ReadOnlyRow rows = {row}/>
-                    )
-                      
-              )}
-                </TableBody>
-            </Table>
-        </TableContainer>
-        </Paper>
+    
+        <form onSubmit={handleEditFormSubmit}>
+            <Paper sx = {{width: '100%'}}>
+            <TableContainer sx = {{maxHeight: 440}}>
+                <Table stickyHeader aria-label = "sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <th> Action</th>
+                            {columns.map((column) => (
+                            <TableCell 
+                                key = {column.id}
+                                style = {{minWidth: column.minWidth}}
+                            >
+                                {column.label}
+                            </TableCell>  
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows
+                        .map((row) => (
+                            <Fragment>
+                                {editId === row.id? 
+                                <EditableRow editFormData = {editFormData} handleEditFormChange = {handleEditFormChange} handleEditCancel= {handleEditCancel} /> : 
+                                <ReadOnlyRow rows = {row} handleEditClick = {handleEditClick}/>}
+                                
+                            </Fragment>
+                        )
+                        
+                )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            </Paper>
+        </form>
 
         <Search
 			onSearchHandler={onSearchHandler}
