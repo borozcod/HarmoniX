@@ -50,7 +50,7 @@ app.post('/update', async function(req,res){
 
   const form = req.body;
 
-  // console.log(form);
+  //console.log(form);
   //console.log(form.id);
   csvMng.update(form.id,form)
 
