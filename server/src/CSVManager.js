@@ -179,6 +179,11 @@ class CSVManager {
 			}
 		})
 	}
+	
+	add_row(row){
+		this.data.push(row)
+		console.log('added song');
+	}
 
 
     /**

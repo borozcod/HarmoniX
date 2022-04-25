@@ -1,8 +1,10 @@
 import React from 'react'
-import json_data from '../mock-data.json'
+import json_data from '../data/mock-data.json'
+import empty_data from '../data/empty-data.json'
 import Search from "./Search"
 import ReadOnlyRow from './ReadOnlyRow'
 import EditableRow from './EditableRow'
+import AddRow from './AddRow'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -21,12 +23,38 @@ import axios from 'axios';
 const DataTable = () => {
 	
 	const [rows, setRows] = useState(json_data);
+	const [empty_rows, setEmptyRows] = useState(empty_data);
 
 
 	//this is for edit row
 	const [editId, setEditId] = useState(null);
 	
 	const [editFormData, setEditFormData] = useState(
+		{
+			id: "",
+			name: "", 
+			popularity: "",
+			duration_ms: "", 
+			explicit: "", 
+			artists: "", 
+			id_artists: "", 
+			release_date: "", 
+			danceability: "", 
+			energy: "", 
+			key: "", 
+			loudness: "", 
+			mode: "", 
+			speechiness: "", 
+			acousticness: "", 
+			instrumentalness: "", 
+			liveness: "", 
+			valence: "", 
+			tempo: "", 
+			time_signature: ""
+		}
+	)
+	
+	const [addFormData, setAddFormData] = useState(
 		{
 			id: "",
 			name: "", 
@@ -95,6 +123,26 @@ const DataTable = () => {
 
 		// update data
 		setEditFormData(newFormData)
+
+	}
+	
+	const handleAddFormChange = (event) => {
+		event.preventDefault();
+
+		// get the name of the field from event
+		const fieldName = event.target.getAttribute("name");
+
+		//get the value store in the category
+		const fieldValue = event.target.value;
+
+		// copy existing data over
+		const newFormData = { ...addFormData};
+
+		// set index to new value
+		newFormData[fieldName] = fieldValue;
+
+		// update data
+		setAddFormData(newFormData)
 
 	}
 
@@ -169,7 +217,6 @@ const DataTable = () => {
 		newRow.splice(index, 1)
 		setRows(newRow)
 		
-		console.log("Hello")
 		console.log(rows)
 		
 	}
@@ -223,6 +270,45 @@ const DataTable = () => {
 		e.preventDefault();
 		setEditId(null);
 	}
+	
+	const handleAddClick = (event) => {
+		event.preventDefault();
+		
+		
+
+		const addedrow = {
+			id: addFormData.id,
+			name: addFormData.name,
+			popularity: addFormData.popularity,
+			duration_ms: addFormData.duration_ms,
+			explicit: addFormData.explicit,
+			artists: addFormData.artists, 
+			id_artists: addFormData.id_artists, 
+			release_date: addFormData.release_date, 
+			danceability: addFormData.danceability, 
+			energy: addFormData.energy, 
+			key: addFormData.key, 
+			loudness: addFormData.loudness, 
+			mode: addFormData.mode, 
+			speechiness: addFormData.speechiness, 
+			acousticness: addFormData.acousticness, 
+			instrumentalness: addFormData.instrumentalness, 
+			liveness:addFormData.liveness,
+			valence:addFormData.valence,
+			tempo: addFormData.tempo,
+			time_signature: addFormData.time_signature
+		}
+
+		axios.post('http://localhost:8080/add', addedrow)
+		.then(response => {
+			console.log(response)
+		})
+		.catch(error=>{
+			console.log(error)
+		})
+
+		setEmptyRows([...empty_rows])
+	}
 
 	return (
 		<div>
@@ -255,6 +341,15 @@ const DataTable = () => {
 							)
 							
 						)}
+						{empty_rows
+							.map((row) => (
+								<Fragment>
+									<AddRow addFormData = {addFormData} handleAddFormChange = {handleAddFormChange} handleAddClick = {handleAddClick}/> : 
+								</Fragment>
+							)
+							
+						)}
+						
 						</TableBody>
 					</Table>
 				</TableContainer>

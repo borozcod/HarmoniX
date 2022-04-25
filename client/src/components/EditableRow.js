@@ -33,7 +33,7 @@ const EditableRow = ({editFormData, handleEditFormChange, handleEditCancel}) => 
         </input>
       </td>
       <td>
-        <input type = 'text' required = 'required' placeholder='Enter id_artists' name='id_artist'onChange={handleEditFormChange} value = {editFormData.id_artists}>
+        <input type = 'text' required = 'required' placeholder='Enter id_artists' name='id_artists'onChange={handleEditFormChange} value = {editFormData.id_artists}>
         </input>
       </td>
       <td>
