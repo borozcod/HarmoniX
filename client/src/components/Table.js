@@ -18,283 +18,256 @@ import axios from 'axios';
 
 
 
-
 const DataTable = () => {
+	
+	const [rows, setRows] = useState(json_data);
 
 
-  const [rows, setRows] = useState(json_data);
-
-
-
-  //this is for edit row
-  const [editId, setEditId] = useState(null);
-  const [editFormData, setEditFormData] = useState(
-      {
-        id: "",
-        name: "", 
-        popularity: "",
-        duration_ms: "", 
-        explicit: "", 
-        artists: "", 
-        id_artists: "", 
-        release_date: "", 
-        danceability: "", 
-        energy: "", 
-        key: "", 
-        loudness: "", 
-        mode: "", 
-        speechiness: "", 
-        acousticness: "", 
-        instrumentalness: "", 
-        liveness: "", 
-        valence: "", 
-        tempo: "", 
-        time_signature: ""
-
-      }
-  )
+	//this is for edit row
+	const [editId, setEditId] = useState(null);
+	
+	const [editFormData, setEditFormData] = useState(
+		{
+			id: "",
+			name: "", 
+			popularity: "",
+			duration_ms: "", 
+			explicit: "", 
+			artists: "", 
+			id_artists: "", 
+			release_date: "", 
+			danceability: "", 
+			energy: "", 
+			key: "", 
+			loudness: "", 
+			mode: "", 
+			speechiness: "", 
+			acousticness: "", 
+			instrumentalness: "", 
+			liveness: "", 
+			valence: "", 
+			tempo: "", 
+			time_signature: ""
+		}
+	)
   
-  const onSearchHandler = (newData) => {
-	  setRows(newData)
-  }
+	const onSearchHandler = (newData) => {
+		setRows(newData)
+	}
 
+	const columns =  [
+		{id: 'id', label: "ID", minWidth: 170},
+		{id: 'name', label: "Name", minWidth: 170},
+		{id: 'popularity', label: "Popularity", minWidth: 170},
+		{id: 'duration_ms', label: "Duration (ms)", minWidth: 170},
+		{id: 'explicit', label: "Explicit", minWidth: 170},
+		{id: 'artists', label: "Artists", minWidth: 150},
+		{id: 'id_artists', label: "Artist ID", minWidth: 150},
+		{id: 'release_date', label: "Release Date", minWidth: 150},
+		{id: 'danceability', label: "Danceability", minWidth: 150},
+		{id: 'energy', label: "Energy", minWidth: 150},
+		{id: 'key', label: "Key", minWidth: 150},
+		{id: 'loudness', label: "Loudness", minWidth: 150},
+		{id: 'mode', label: "Mode", minWidth: 150},
+		{id: 'speechiness', label: "Speechiness", minWidth: 150},
+		{id: 'acousticness', label: "Acousticness", minWidth: 150},
+		{id: 'instrumentalness', label: "Instrumentalness", minWidth: 150},
+		{id: 'liveness', label: "Liveness", minWidth: 150},
+		{id: 'valence', label: "Valence", minWidth: 150},
+		{id: 'tempo', label: "Tempo", minWidth: 150},
+		{id: 'time_signature', label: "Time Signature", minWidth: 150},
+	]
 
+	const handleEditFormChange = (event) => {
+		event.preventDefault();
 
-  const columns =  [
-    {id: 'id', label: "Id", minWidth: 170},
-    {id: 'name', label: "Name", minWidth: 170},
-    {id: 'popularity', label: "Popularity", minWidth: 170},
-    {id: 'duration_ms', label: "Duration_ms", minWidth: 170},
-    {id: 'explicit', label: "Explicit", minWidth: 170},
-    {
-        label: 'Artists',
-        id: 'artists',
-        minWidth: 150
-    },
-    {
-        label: 'Id_artists',
-        id: 'id_artists',
-        minWidth: 150
-    },
-    {
-        label: 'Release_date',
-        id: 'release_date',
-        minWidth: 150
-    },
-    {
-        label: 'Danceability',
-        id: 'danceability',
-        minWidth: 150
-    },
-    {
-        label: 'Energy',
-        id: 'energy',
-        minWidth: 150
-    },
-    {
-        label: 'Key',
-        id: 'key',
-        minWidth: 150
-    },
-    {
-        label: 'Loudness',
-        id: 'loudness',
-        minWidth: 150
-    },
-    {
-        label: 'Mode',
-        id: 'mode',
-        minWidth: 150
-    },
-    {
-        label: 'Speechiness',
-        id: 'speechiness',
-        minWidth: 150
-    },
-    {
-        label: 'Acousticness',
-        id: 'acousticness',
-        minWidth: 150
-    },
-    {
-        label: 'Instrumentalness',
-        id: 'instrumentalness',
-        minWidth: 150
-    },
-    {
-        label: 'Liveness',
-        id: 'liveness',
-        minWidth: 150
-    },
-    {
-        label: 'Valence',
-        id: 'valence',
-        minWidth: 150
-    },
-    {
-        label: 'Tempo',
-        id: 'tempo',
-        minWidth: 150
-    },
-    {
-        label: 'Time_signature',
-        id: 'time_signature',
-        minWidth: 150
-    },
+		// get the name of the field from event
+		const fieldName = event.target.getAttribute("name");
 
-  ]
+		//get the value store in the category
+		const fieldValue = event.target.value;
 
-  const handleEditFormChange = (event) => {
-    event.preventDefault();
+		// copy existing data over
+		const newFormData = { ...editFormData};
 
-    // get the name of the field from event
-    const fieldName = event.target.getAttribute("name");
+		// set index to new value
+		newFormData[fieldName] = fieldValue;
 
-    //get the value store in the category
-    const fieldValue = event.target.value;
+		// update data
+		setEditFormData(newFormData)
 
-    // copy existing data over
-    const newFormData = { ...editFormData};
+	}
 
-    // set index to new value
-    newFormData[fieldName] = fieldValue;
+	const handleEditClick = (event, row) => {
+		event.preventDefault();
+		setEditId(row.id);
 
-    // update data
-    setEditFormData(newFormData)
+		const formValues = {
+			id: row.id,
+			name: row.name,
+			popularity: row.popularity,
+			duration_ms: row.duration_ms,
+			explicit: row.explicit,
+			artists: row.artists, 
+			id_artists: row.id_artists, 
+			release_date: row.release_date, 
+			danceability: row.danceability, 
+			energy: row.energy, 
+			key: row.key, 
+			loudness: row.loudness, 
+			mode: row.mode, 
+			speechiness: row.speechiness, 
+			acousticness: row.acousticness, 
+			instrumentalness: row.instrumentalness, 
+			liveness:row.liveness,
+			valence:row.valence,
+			tempo: row.tempo,
+			time_signature: row.time_signature
+		}
 
-}
+		setEditFormData(formValues)
+	}
+	
+	const handleDeleteClick = (event, row) => {
+		event.preventDefault();
+		
+		const deletedrow = {
+			id: row.id,
+			name: row.name,
+			popularity: row.popularity,
+			duration_ms: row.duration_ms,
+			explicit: row.explicit,
+			artists: row.artists, 
+			id_artists: row.id_artists, 
+			release_date: row.release_date, 
+			danceability: row.danceability, 
+			energy: row.energy, 
+			key: row.key, 
+			loudness: row.loudness, 
+			mode: row.mode, 
+			speechiness: row.speechiness, 
+			acousticness: row.acousticness, 
+			instrumentalness: row.instrumentalness, 
+			liveness:row.liveness,
+			valence:row.valence,
+			tempo: row.tempo,
+			time_signature: row.time_signature
+		}
 
-  const handleEditClick = (event, row) => {
-      event.preventDefault();
-      setEditId(row.id);
+		const newRow = [...rows]
 
-      const formValues = {
-          id: row.id,
-          name: row.name,
-          popularity: row.popularity,
-          duration_ms: row.duration_ms,
-          explicit: row.explicit,
-          artists: row.artists, 
-          id_artists: row.id_artists, 
-          release_date: row.release_date, 
-          danceability: row.danceability, 
-          energy: row.energy, 
-          key: row.key, 
-          loudness: row.loudness, 
-          mode: row.mode, 
-          speechiness: row.speechiness, 
-          acousticness: row.acousticness, 
-          instrumentalness: row.instrumentalness, 
-          liveness:row.liveness,
-          valence:row.valence,
-          tempo: row.tempo,
-          time_signature: row.time_signature
-      }
+		const index = rows.findIndex( (row)=> row.id === row.id)
+		
+		axios.post('http://localhost:8080/delete', deletedrow)
+		.then(response => {
+			console.log(response)
+		})
+		.catch(error=>{
+			console.log(error)
+		})
+		
+		newRow.splice(index, 1)
+		setRows(newRow)
+		
+		console.log("Hello")
+		console.log(rows)
+		
+	}
 
-      setEditFormData(formValues)
-  }
+	const handleEditFormSubmit = (event) => {
+		event.preventDefault();
 
-  const handleEditFormSubmit = (event) => {
-    event.preventDefault();
+		const editedrow = {
+			id: editFormData.id,
+			name: editFormData.name,
+			popularity: editFormData.popularity,
+			duration_ms: editFormData.duration_ms,
+			explicit: editFormData.explicit,
+			artists: editFormData.artists, 
+			id_artists: editFormData.id_artists, 
+			release_date: editFormData.release_date, 
+			danceability: editFormData.danceability, 
+			energy: editFormData.energy, 
+			key: editFormData.key, 
+			loudness: editFormData.loudness, 
+			mode: editFormData.mode, 
+			speechiness: editFormData.speechiness, 
+			acousticness: editFormData.acousticness, 
+			instrumentalness: editFormData.instrumentalness, 
+			liveness:editFormData.liveness,
+			valence:editFormData.valence,
+			tempo: editFormData.tempo,
+			time_signature: editFormData.time_signature
+		}
 
-    const editedrow = {
-        id: editFormData.id,
-        name: editFormData.name,
-        popularity: editFormData.popularity,
-        duration_ms: editFormData.duration_ms,
-        explicit: editFormData.explicit,
-        artists: editFormData.artists, 
-        id_artists: editFormData.id_artists, 
-        release_date: editFormData.release_date, 
-        danceability: editFormData.danceability, 
-        energy: editFormData.energy, 
-        key: editFormData.key, 
-        loudness: editFormData.loudness, 
-        mode: editFormData.mode, 
-        speechiness: editFormData.speechiness, 
-        acousticness: editFormData.acousticness, 
-        instrumentalness: editFormData.instrumentalness, 
-        liveness:editFormData.liveness,
-        valence:editFormData.valence,
-        tempo: editFormData.tempo,
-        time_signature: editFormData.time_signature
-    }
+		const newRow = [...rows]
 
-    const newRow = [...rows]
+		const index = rows.findIndex( (row)=> row.id === editId)
 
-    const index = rows.findIndex( (row)=> row.id === editId)
+		newRow[index] = editedrow
 
-    newRow[index] = editedrow
+		axios.post('http://localhost:8080/update', editedrow)
+		.then(response => {
+			console.log(response)
+		})
+		.catch(error=>{
+			console.log(error)
+		})
+		
+		setRows(newRow)
+		setEditId(null)
+		console.log(rows)
+	}
 
-    axios.post('http://localhost:8080/update', editedrow)
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error=>{
-            console.log(error)
-        })
-    setRows(newRow)
+	const handleEditCancel = (e) => {
+		e.preventDefault();
+		setEditId(null);
+	}
 
-    setEditId(null)
+	return (
+		<div>
 
-    console.log(rows)
-}
+			<form onSubmit={handleEditFormSubmit}>
+				<Paper sx = {{width: '100%'}}>
+				<TableContainer sx = {{maxHeight: 440}}>
+					<Table stickyHeader aria-label = "sticky table">
+						<TableHead>
+							<TableRow>
+								<th> Action</th>
+								{columns.map((column) => (
+								<TableCell 
+									key = {column.id}
+									style = {{minWidth: column.minWidth}}
+								>
+									{column.label}
+								</TableCell>  
+								))}
+							</TableRow>
+						</TableHead>
+						<TableBody>
+						{rows
+							.map((row) => (
+								<Fragment>
+									{editId === row.id?
+									<EditableRow editFormData = {editFormData} handleEditFormChange = {handleEditFormChange} handleEditCancel= {handleEditCancel} /> : 
+									<ReadOnlyRow rows = {row} handleEditClick = {handleEditClick} handleDeleteClick = {handleDeleteClick} />}		
+								</Fragment>
+							)
+							
+						)}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				</Paper>
+			</form>
 
-const handleEditCancel = (e) => {
-    e.preventDefault();
-    setEditId(null);
-}
+			<Search
+				onSearchHandler={onSearchHandler}
+			/>
+			
+		</div>
 
-    
-  return (
-
-
-    <div>
-    
-        <form onSubmit={handleEditFormSubmit}>
-            <Paper sx = {{width: '100%'}}>
-            <TableContainer sx = {{maxHeight: 440}}>
-                <Table stickyHeader aria-label = "sticky table">
-                    <TableHead>
-                        <TableRow>
-                            <th> Action</th>
-                            {columns.map((column) => (
-                            <TableCell 
-                                key = {column.id}
-                                style = {{minWidth: column.minWidth}}
-                            >
-                                {column.label}
-                            </TableCell>  
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {rows
-                        .map((row) => (
-                            <Fragment>
-                                {editId === row.id? 
-                                <EditableRow editFormData = {editFormData} handleEditFormChange = {handleEditFormChange} handleEditCancel= {handleEditCancel} /> : 
-                                <ReadOnlyRow rows = {row} handleEditClick = {handleEditClick}/>}
-                                
-                            </Fragment>
-                        )
-                        
-                )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            </Paper>
-        </form>
-
-        <Search
-			onSearchHandler={onSearchHandler}
-		/>
-
-        
-        
-    </div>
-
-  );
+	);
 }
 
 export default DataTable
