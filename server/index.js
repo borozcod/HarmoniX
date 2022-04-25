@@ -51,8 +51,20 @@ app.post('/update', async function(req,res){
   const form = req.body;
 
   //console.log(form);
-  //console.log(form.id);
+  console.log(form.id);
   csvMng.update(form);
+  csvMng.updateCSV()
+
+  res.sendStatus(200);
+})
+
+app.post('/delete', async function(req,res){
+
+  const form = req.body;
+
+  //console.log(form);
+  console.log(form.id);
+  csvMng.delete_row(form);
   csvMng.updateCSV()
 
   res.sendStatus(200);

@@ -169,6 +169,16 @@ class CSVManager {
             }
         })
     }
+	
+	delete_row(row){
+		this.data.forEach(element=>{
+			if(element.id === row.id){
+				const index = this.data.indexOf(element);
+				this.data.splice(index, 1);
+				console.log('deleted song');
+			}
+		})
+	}
 
 
     /**
