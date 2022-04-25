@@ -30,7 +30,7 @@ const Search = ({onSearchHandler}) => {
             .then(res => {
                 const data = res.data;
                 console.log(data)
-				onSearchHandler(data)
+				onSearchHandler(data)  
                 })
 			.catch(err => {
 				console.log(err)

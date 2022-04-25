@@ -4,7 +4,7 @@ const CSVManager = require('../src/CSVManager');
 
 test('backup file', async () => {
 
-    const file = __dirname + "/../files/tracks.csv";
+    const file = __dirname + "/test-track.csv";
     const filename = path.parse(file).name;
     const ext = path.parse(file).ext;
     const timestamp = Date.now();
