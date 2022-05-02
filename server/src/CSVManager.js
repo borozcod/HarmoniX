@@ -159,7 +159,7 @@ class CSVManager {
 
         return matches;
     }
-
+    
     update(row){
         this.data.forEach(element=>{
             if(element.id === row.id){
@@ -205,6 +205,80 @@ class CSVManager {
         // if this get's to long we can try and us appendFileSync
         fs.writeFileSync(this.file, csvString);
     }
+
+    /**
+     * Reads through data set and returns the percentile distribution for any given column
+     * @param {String} colName - The column of the csv you would like to search
+     * @return {Array} 
+     * @memberof CSVManager
+     */
+    distribution(colName) {
+
+        var occurrences = [0,0,0,0,0,0,0,0,0,0]
+        const arrSize = this.data.length;
+
+        this.data.forEach( row => {
+            const colVal = parseFloat(row[colName])
+            if (colVal <= 0.1) {
+                occurrences[0]++;
+            }
+            else if (colVal > 0.1 && colVal <= 0.2) {
+                occurrences[1]++;
+            }
+            else if (colVal > 0.2 && colVal <= 0.3) {
+                occurrences[2]++;
+            }
+            else if (colVal > 0.3 && colVal <= 0.4) {
+                occurrences[3]++;
+            }
+            else if (colVal > 0.4 && colVal <= 0.5) {
+                occurrences[4]++;
+            }
+            else if (colVal > 0.5 && colVal <= 0.6) {
+                occurrences[5]++;
+            }
+            else if (colVal > 0.6 && colVal <= 0.7) {
+                occurrences[6]++;
+            }
+            else if (colVal > 0.7 && colVal <= 0.8) {
+                occurrences[7]++;
+            }
+            else if (colVal > 0.8 && colVal <= 0.9) {
+                occurrences[8]++;
+            }
+            else if (colVal > 0.9 && colVal <= 1) {
+                occurrences[9]++;
+            }
+        })
+
+        var divided = [0,0,0,0,0,0,0,0,0,0] 
+        for(var i = 0; i < occurrences.length; i++){
+            divided[i] = occurrences[i]/arrSize * 100;
+        }
+
+        return divided;
+
+    }
+
+/*     percentRank(array, n) {
+        var L = 0;
+        var S = 0;
+        var N = array.length
+    
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] < n) {
+                L += 1
+            } else if (array[i] === n) {
+                S += 1
+            } else {
+    
+            }
+        }
+    
+        var pct = (L + (0.5 * S)) / N
+    
+        return pct
+    } */
 }
 
 module.exports = CSVManager;
