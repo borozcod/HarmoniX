@@ -51,7 +51,7 @@ app.post('/update', async function(req,res){
   const form = req.body;
 
   //console.log(form);
-  console.log(form.id);
+  //console.log(form.id);
   csvMng.update(form);
   csvMng.updateCSV()
 
@@ -80,6 +80,12 @@ app.post('/add', async function(req,res){
   csvMng.updateCSV()
 
   res.sendStatus(200);
+})
+
+app.get('/distribution', function (req, res) {
+  const {colName} = req.query
+  const data = csvMng.distribution(colName);
+	res.send(data);
 })
 
 
