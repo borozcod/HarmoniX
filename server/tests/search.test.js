@@ -42,4 +42,3 @@ test('search for artist, check if resulting array has correct artists', async ()
     expect(data[7]['artists']).toEqual("['Fernando Pessoa']");
     expect(data[8]['artists']).toEqual("['Fernando Pessoa']");
 });
-
