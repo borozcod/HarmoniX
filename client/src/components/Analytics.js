@@ -1,26 +1,57 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import {Card, CardContent, Typography, Grid} from '@mui/material';
 import {Box, InputLabel, MenuItem, FormControl, Select} from '@mui/material';
-import {useState} from 'react'
+import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip);
 
 const Analytics = () => {
 
     const [attribute, setAttribute] = useState('danceability');
+    const [percentData, setPercentData] = useState([0,0,0,0,0,0,0,0,0,0]);
+
+    useEffect(()=> {
+        axios.get(`http://localhost:8080/distribution`,
+            {params: {
+                colName: 'danceability',
+            }
+        }
+        )
+        .then(res => {
+            const data = res.data;
+            setPercentData(data);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
 
     const handleChange = (event) => {
-      setAttribute(event.target.value);
+        setAttribute(event.target.value);
+        axios.get(`http://localhost:8080/distribution`,
+            {params: {
+                colName: event.target.value,
+            }
+        }
+        )
+        .then(res => {
+            const data = res.data;
+            setPercentData(data);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    
     };
-  
+
     const data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['0.0 - 0.1', '0.1 - 0.2', '0.2 - 0.3', '0.3 - 0.4', '0.4 - 0.5', '0.5 - 0.6', '0.6 - 0.7', '0.7 - 0.8','0.8 - 0.9', '0.9 - 0.99'],
         datasets: [
           {
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: percentData,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -46,7 +77,8 @@ const Analytics = () => {
             bgcolor: 'rgba(0, 0, 0, 0.7)',
           }}>
             <CardContent>
-                <Typography color='white' variant="h3" sx={{fontWeight: '600'}} gutterBottom>Analytics</Typography>
+                <Typography color='white' variant="h3" sx={{fontWeight: '600'}} >Analytics</Typography>
+                <Typography color='white' sx={{marginBottom:'20px'}}>Displaying the distribution of of values grouped</Typography>
                 <Grid container spacing={2} justifyContent="space-between">
                     <Grid item xs={2}>
                         <Box sx={{ maxWidth: 120}}>
