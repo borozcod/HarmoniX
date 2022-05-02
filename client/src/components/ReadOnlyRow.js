@@ -27,9 +27,9 @@ const ReadOnlyRow = ({rows, handleEditClick}) => {
       <td>{rows.tempo}</td>
       <td>{rows.time_signature}</td>
 
-      
-    </tr>
-  )
+		  
+		</tr>
+	)
 }
 
 export default ReadOnlyRow

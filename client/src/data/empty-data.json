@@ -1,0 +1,25 @@
+[
+    {
+        "id": 0,
+        "name": "",
+        "popularity": 0,
+        "duration_ms":0,
+        "explicit": 0,
+        "artists": "", 
+        "id_artists":0, 
+        "release_date":0, 
+        "danceability":0, 
+        "energy":0, 
+        "key":0, 
+        "loudness":0, 
+        "mode":0, 
+        "speechiness":0, 
+        "acousticness":0, 
+        "instrumentalness":0, 
+        "liveness":0, 
+        "valence":0, 
+        "tempo": 0, 
+        "time_signature": 0
+
+    }
+]

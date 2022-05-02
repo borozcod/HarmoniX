@@ -58,6 +58,36 @@ app.post('/update', async function(req,res){
   res.sendStatus(200);
 })
 
+app.post('/delete', async function(req,res){
+
+  const form = req.body;
+
+  //console.log(form);
+  console.log(form.id);
+  csvMng.delete_row(form);
+  csvMng.updateCSV()
+
+  res.sendStatus(200);
+})
+
+app.post('/add', async function(req,res){
+
+  const form = req.body;
+
+  //console.log(form);
+  console.log(form.id);
+  csvMng.add_row(form);
+  csvMng.updateCSV()
+
+  res.sendStatus(200);
+})
+
+app.get('/distribution', function (req, res) {
+  const {colName} = req.query
+  const data = csvMng.distribution(colName);
+	res.send(data);
+})
+
 
 app.listen(port, function () {
   console.log(`app listening on port ${port}!`)
