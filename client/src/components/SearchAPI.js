@@ -137,7 +137,23 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <h1>Spotify React</h1>
+                {!token ?
+                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
+                        to Spotify</a>
+                    : <button onClick={logout}>Logout</button>}
 
+                {token ?
+                    <form onSubmit={searchArtists}>
+                        <input type="text" onChange={e => setSearchKey(e.target.value)}/>
+                        <button type={"submit"}>Search</button>
+                    </form>
+
+                    : <h2>Please login</h2>
+                }
+
+                {renderArtists()}
+				{renderTracks()}
             </header>
 
 			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)',}}>
@@ -149,23 +165,12 @@ function App() {
     		        </Typography>
     		      </Grid>
     		      <Grid item xs={8} sx={{textAlign: 'center'}} >
-				  	{!token ?
-                    	<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-                    	: <button onClick={logout}>Logout</button>
-					}
-                	{token ?
-                    	<form onSubmit={searchArtists}>
-                    	    <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-                    	    <button type={"submit"} variant="contained">Search</button>
-                    	</form>
-                    	: <h2>Please login</h2>
-                	}
+
     		      </Grid>
     		    </Grid>
     		  </CardContent>
     		</Card>
-			{renderArtists()}
-			{renderTracks()}
+
         </div>
 
 	    
