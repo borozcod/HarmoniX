@@ -114,7 +114,7 @@ function App() {
     const renderArtists = () => {
         return APIartists.map(artist => (
             <div key={artist.id} onClick= {()=>{generateTracks(artist.id)}}>
-                {artist.images.length ? <img width={"10%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
+                {artist.images.length ? <img width={"20%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
                 {artist.name}
             </div>
         ))
@@ -123,7 +123,7 @@ function App() {
     const renderTracks = () => {
 		return tracks.map(track => (
             <div key={track.id} >
-                {track.album.images.length ? <img width={"5%"} src={track.album.images[0].url} alt=""/> : <div>No Image</div>}
+                {track.album.images.length ? <img width={"10%"} src={track.album.images[0].url} alt=""/> : <div>No Image</div>}
                 {track.name}
 				<button>Add To Playlist</button>
             </div>
@@ -137,23 +137,10 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Spotify React</h1>
-                {!token ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
+                <h1>Harmonix</h1>
 
-                {token ?
-                    <form onSubmit={searchArtists}>
-                        <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-                        <button type={"submit"}>Search</button>
-                    </form>
 
-                    : <h2>Please login</h2>
-                }
-
-                {renderArtists()}
-				{renderTracks()}
+                
             </header>
 
 			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)',}}>
@@ -162,14 +149,81 @@ function App() {
     		      <Grid item xs={4}>
     		        <Typography sx={{fontWeight: 600}} color='white' variant="h2">
     		          Find an Artist <FontAwesomeIcon icon={faMagnifyingGlass} color="rgb(244, 123, 80)" />
+
     		        </Typography>
     		      </Grid>
     		      <Grid item xs={8} sx={{textAlign: 'center'}} >
-
+				  {!token ?
+                    	<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Loginto Spotify</a>
+                    	: <button onClick={logout}>Logout</button>
+				  }
+                	  {token ?
+                    	<form onSubmit={searchArtists}>
+                        	<input type="text" onChange={e => setSearchKey(e.target.value)}/>
+                        	<button type={"submit"}>Search</button>
+                    	</form>
+                       		: <h2>Please login</h2>
+                	  }
     		      </Grid>
     		    </Grid>
     		  </CardContent>
     		</Card>
+
+
+			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)',}}>
+    		  <CardContent>
+    		    <Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
+    		      <Grid item xs={6}>
+				  <Card sx={{bgcolor: 'rgba(0, 0, 0, 0.4)',}}>
+				  	<Typography sx={{fontWeight: 800}} color='white' variant="h4">
+    		          Artist 
+    		        </Typography>
+				  	{renderArtists()}
+				  </Card>
+    		      </Grid>
+    		      <Grid item xs={6}>
+				  <Card sx={{bgcolor: 'rgba(0, 0, 0, 0.4)',}}>
+				  	<Typography sx={{fontWeight: 800}} color='white' variant="h4">
+    		          Tracks 
+    		        </Typography>
+				  	{renderTracks()}
+				  </Card>
+    		      </Grid>
+    		    </Grid>
+    		  </CardContent>
+
+    		</Card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="row">
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+				  
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-6">
+			    <div class="card">
+			      <div class="card-body">
+				  
+			      </div>
+			    </div>
+			  </div>
+			</div>
 
         </div>
 
