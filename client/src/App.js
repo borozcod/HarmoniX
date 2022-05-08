@@ -2,13 +2,13 @@ import React, {useState} from 'react'
 import GetRequest from './components/GetRequest'
 import Table from './components/Table';
 import InputFile from './components/Import';
-import Analytics from './components/pages/HomePage/Analytics';
+import Analytics from './components/pages/Analytics';
 import NavBar from './components/globals/NavBar';
-import NavPage from './components/globals/NavPage';
 
-import HomeFinalPage from './components/pages/HomePage/HomeFinalPage';
+
+import HomePage from './components/pages/HomePage';
 import MoodSearchPage from './components/pages/MoodSearchPage';
-import AddTrackPage from './components/pages/HomePage/AddTrackPage';
+import AddTrackPage from './components/pages/AddTrackPage';
 import AddArtistsPage from './components/pages/AddArtistsPage'
 import InputPlayListNamePage from './components/pages/InputPlayListNamePage'
 import ResultPage from './components/pages/ResultPage'
@@ -18,18 +18,37 @@ import { Container, Box } from '@mui/material';
 const App = () => {
 
 
+  const [tab, setTab] = useState('generate');
+
+  const changeTab = (newTab) => {
+    setTab(newTab);
+  }
+
   const [page, setPage] = useState(0);
+
+  const [started, setStarted] = useState(false);
 
 
   const changePage = (newPage) =>{
-    if(newPage < 6 && newPage >= 0){
+    if(newPage < 6 && newPage >= 1){
       setPage(newPage);
     }
 
   }
 
+  const onGetStarted = (bool) =>{
+    if(bool === true){
+      setPage(1)
+      setStarted(bool);
+    }
+    else{
+      setPage(0)
+      setStarted(false);
+    }
+  }
+
   const pages = [
-    <HomeFinalPage/>,
+    <HomePage onGetStarted={onGetStarted}/>,
     <MoodSearchPage/>,
     <AddArtistsPage/>,
     <AddTrackPage/>,
@@ -37,22 +56,41 @@ const App = () => {
     <ResultPage/>
   ]
 
+
+
+
   return (
     <div className="App">
       
       <Container maxWidth="lg" sx={{
         margin: '20px auto'
       }}>
+        {
+          tab === 'analytic' && (
+            <Box sx={{margin: '20px'}}>
+              <Analytics/>
+            </Box>
+          )
+        }
+        {
+          tab === 'generate' && (
+            <Box sx={{margin: '20px'}}>
+              {pages[page]}
+            </Box>
+          )
+        }
+        {/* {
+          tab === 'table' && (
+            <Box sx={{margin: '20px'}}>
+              // add table
+            </Box>
+          )
+        } */}
+        
 
-
-        {pages[page]}
-
-
-        <Container>
-          <Box sx = {{margin: '20px'}}>
-              <NavPage changePage={changePage} page={page} />
-          </Box>
-        </Container>
+        <Box sx={{margin: '20px'}}>
+          <NavBar changeTab={changeTab} active={tab} changePage={changePage} page={page} started={started} onGetStarted={onGetStarted}/>
+        </Box>
         
       
       </Container>
