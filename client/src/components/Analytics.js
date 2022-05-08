@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, CategoryScale, LinearScale, BarElement } from 'chart.js';
+import { Pie, Bar } from 'react-chartjs-2';
 import {Card, CardContent, Typography, Grid} from '@mui/material';
-import {Box, InputLabel, MenuItem, FormControl, Select} from '@mui/material';
+import {Box, InputLabel, MenuItem, FormControl, Select, Button} from '@mui/material';
 import axios from 'axios';
 
-ChartJS.register(ArcElement, Tooltip);
+ChartJS.register(ArcElement, Tooltip, CategoryScale, LinearScale, BarElement);
 
 const Analytics = () => {
 
     const [attribute, setAttribute] = useState('danceability');
+    const [tab, setTab] = useState('pie');
     const [percentData, setPercentData] = useState([0,0,0,0,0,0,0,0,0,0]);
 
     useEffect(()=> {
@@ -72,42 +73,78 @@ const Analytics = () => {
           },
         ],
       };
+      const baseStyle = {
+        color: 'white', fontWeight: '600',
+        borderRadius: '0px',
+    }
+    const activeStyle = {
+        ...baseStyle,
+        borderBottom: 'solid 2px #fff'
+    }
     return(
         <Card sx={{
             bgcolor: 'rgba(0, 0, 0, 0.7)',
           }}>
             <CardContent>
                 <Typography color='white' variant="h3" sx={{fontWeight: '600'}} >Analytics</Typography>
-                <Typography color='white' sx={{marginBottom:'20px'}}>Displaying the distribution of of values grouped</Typography>
-                <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={2}>
-                        <Box sx={{ maxWidth: 120}}>
-                            <FormControl fullWidth>
-                                <InputLabel sx={{color: 'rgb(244, 123, 80)'}} id="demo-simple-select-label">Attribute</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={attribute}
-                                    label="Attribute"
-                                    onChange={handleChange}
-                                    sx={{
-                                        color: 'white',
-                                        borderColor: 'rgb(244, 123, 80)'
-                                    }}
-                                >
-                                <MenuItem value='danceability'>Danceability</MenuItem>
-                                <MenuItem value='energy'>Energy</MenuItem>
-                                <MenuItem value='speechiness'>Speechiness</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Box sx={{ maxWidth: 300}}>
-                            <Pie data={data} />
-                        </Box>
+                <Grid container alignItems="center" spacing={0} sx={{marginBottom: '30px'}}>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent="center" spacing={0}>
+                            <Grid item xs={2}>
+                                <Button onClick={()=> setTab('pie')} varient="text" sx={tab === 'pie' ? activeStyle : baseStyle } size='small'>Pie Chart</Button>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button onClick={()=> setTab('bar')} varient="text" sx={tab === 'bar' ? activeStyle : baseStyle } size='small'>Bar Chart</Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
+                {
+                    tab === 'pie' && (
+                        <>
+                        <Typography color='white' sx={{marginBottom:'20px'}}>Displaying the distribution of of values grouped</Typography>
+                        <Grid container spacing={2} justifyContent="space-between">
+                            <Grid item xs={2}>
+                                <Box sx={{ maxWidth: 120}}>
+                                    <FormControl fullWidth>
+                                        <InputLabel sx={{color: 'rgb(244, 123, 80)'}} id="demo-simple-select-label">Attribute</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={attribute}
+                                            label="Attribute"
+                                            onChange={handleChange}
+                                            sx={{
+                                                color: 'white',
+                                                borderColor: 'rgb(244, 123, 80)'
+                                            }}
+                                        >
+                                        <MenuItem value='danceability'>Danceability</MenuItem>
+                                        <MenuItem value='energy'>Energy</MenuItem>
+                                        <MenuItem value='speechiness'>Speechiness</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={8}>
+                                <Box sx={{ maxWidth: 300}}>
+                                    <Pie data={data} />
+                                </Box>
+                            </Grid>
+                        </Grid>
+                        </>
+                    )
+                }
+                {
+                    tab === 'bar' && (
+                        <>
+                        <Typography color='white' sx={{marginBottom:'20px'}}>Top genres</Typography>
+                        <Box sx={{ maxWidth: 800}}>
+                            <Bar data={data} />
+                        </Box>
+                        </>
+                    )
+                }
             </CardContent>
         </Card>
     )
