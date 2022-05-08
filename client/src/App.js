@@ -49,11 +49,11 @@ const App = () => {
 
   const pages = [
     <HomePage onGetStarted={onGetStarted}/>,
-    <MoodSearchPage/>,
-    <AddArtistsPage/>,
-    <AddTrackPage/>,
-    <InputPlayListNamePage/>,
-    <ResultPage/>
+    <MoodSearchPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <AddArtistsPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <AddTrackPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <InputPlayListNamePage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <ResultPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>
   ]
 
 
