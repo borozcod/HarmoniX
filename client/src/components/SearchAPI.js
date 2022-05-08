@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFire, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import {Grid, Box, Card, CardContent, Typography} from '@mui/material'
-import { faRecordVinyl} from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import {Grid, Box, FormControl, Input, InputAdornment, Card, CardContent, Typography} from '@mui/material'
 import Button from '@mui/material/Button';
-import { bool } from 'prop-types';
 
 
 //[:+:] --------  todo   --------------
@@ -18,9 +15,7 @@ import { bool } from 'prop-types';
 //  [] - beautify
 //  [] - implment "add to playlist" button for custom playlist creation
 
-
-
-function App() {
+function SearchAPI() {
     const CLIENT_ID = "907afb2cd3ee4b5996626b2766fce28f"
     const REDIRECT_URI = "http://localhost:3000"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
@@ -29,45 +24,28 @@ function App() {
     const [token, setToken] = useState("")
     const [searchKey, setSearchKey] = useState("")
     const [APIartists, setAPIartists] = useState([])
-    const [CSVartists, setCSVartists] = useState([])
 	const [tracks, setTracks] = useState([])
-	const market = 'US';
-
-
-    // const getToken = () => {
-    //     let urlParams = new URLSearchParams(window.location.hash.replace("#","?"));
-    //     let token = urlParams.get('access_token');
-    // }
 
     useEffect(() => {
         const hash = window.location.hash
         let token = window.localStorage.getItem("token")
 
-        // getToken()
         if (!token && hash) {
             token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
 
             window.location.hash = ""
             window.localStorage.setItem("token", token)
         }
+		console.log(token);
         setToken(token)
     }, [])
-
-
-
-
-
 
     const logout = () => {
         setToken("")
         window.localStorage.removeItem("token")
     }
 
-
-
-
     const searchArtists = async (e) => {
-        e.preventDefault()
 
         const {data} = await axios.get("https://api.spotify.com/v1/search", {
             headers: {
@@ -78,20 +56,9 @@ function App() {
                 type: "artist"
             }
         })
+
         setAPIartists(data.artists.items)
-
-
-		axios.get(`http://localhost:8080/search`,
-		{params: {
-				  value: searchKey,
-				  key: 'artists'
-			  }
-		}).then(res => {
-			const data = res.data;
-			setCSVartists(data)
-  		}).catch(err => {console.log(err)})
     }
-
 
 	const generateTracks = (id) => {
 		console.log(id)
@@ -104,12 +71,9 @@ function App() {
 				'Authorization': 'Bearer ' + token
 			}
 		}).then(trackresponse=> {
-			console.log(trackresponse.data.tracks);
 			setTracks(trackresponse.data.tracks);
 		}).catch(error=> console.log(error))
 	}
-
-
 
     const renderArtists = () => {
         return APIartists.map(artist => (
@@ -130,110 +94,53 @@ function App() {
         ))
     }
 
-
-
-
-
     return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Harmonix</h1>
-
-
-                
-            </header>
-
-			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)',}}>
+		<>
+			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)'}}>
     		  <CardContent>
     		    <Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
     		      <Grid item xs={4}>
-    		        <Typography sx={{fontWeight: 600}} color='white' variant="h2">
-    		          Find an Artist <FontAwesomeIcon icon={faMagnifyingGlass} color="rgb(244, 123, 80)" />
-
+    		        <Typography sx={{fontWeight: 600}} color='white' variant="h3">
+    		          Find an Artist
     		        </Typography>
+					<Box>
+						{token &&
+							<FormControl variant="standard">
+								<Input
+									type="text" 
+									onChange={e => setSearchKey(e.target.value)}
+									startAdornment={
+										<InputAdornment position="start">
+											<FontAwesomeIcon icon={faMagnifyingGlass} color="rgb(244, 123, 80)" />
+										</InputAdornment>
+									}
+								/>
+								<Button variant="contained" size="small" sx={{marginTop: '10px'}} onClick={searchArtists}>Search</Button>
+							</FormControl>
+						}
+					</Box>
+					  {!token ?
+							<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Loginto Spotify</a>
+							: <Button onClick={logout}>Logout</Button>
+					}
     		      </Grid>
-    		      <Grid item xs={8} sx={{textAlign: 'center'}} >
-				  {!token ?
-                    	<a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Loginto Spotify</a>
-                    	: <button onClick={logout}>Logout</button>
-				  }
-                	  {token ?
-                    	<form onSubmit={searchArtists}>
-                        	<input type="text" onChange={e => setSearchKey(e.target.value)}/>
-                        	<button type={"submit"}>Search</button>
-                    	</form>
-                       		: <h2>Please login</h2>
-                	  }
+    		      <Grid item xs={8} >
+					<Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
+						<Grid item xs={6}>
+							<Typography sx={{fontWeight: 800}} color='white' variant="h4">Artist </Typography>
+							{renderArtists()}
+						</Grid>
+						<Grid item xs={6}>
+							<Typography sx={{fontWeight: 800}} color='white' variant="h4">Tracks</Typography>
+							{renderTracks()}
+						</Grid>
+					</Grid>
     		      </Grid>
     		    </Grid>
     		  </CardContent>
     		</Card>
-
-
-			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)',}}>
-    		  <CardContent>
-    		    <Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
-    		      <Grid item xs={6}>
-				  <Card sx={{bgcolor: 'rgba(0, 0, 0, 0.4)',}}>
-				  	<Typography sx={{fontWeight: 800}} color='white' variant="h4">
-    		          Artist 
-    		        </Typography>
-				  	{renderArtists()}
-				  </Card>
-    		      </Grid>
-    		      <Grid item xs={6}>
-				  <Card sx={{bgcolor: 'rgba(0, 0, 0, 0.4)',}}>
-				  	<Typography sx={{fontWeight: 800}} color='white' variant="h4">
-    		          Tracks 
-    		        </Typography>
-				  	{renderTracks()}
-				  </Card>
-    		      </Grid>
-    		    </Grid>
-    		  </CardContent>
-
-    		</Card>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<div class="row">
-			  <div class="col-sm-6">
-			    <div class="card">
-			      <div class="card-body">
-				  
-			      </div>
-			    </div>
-			  </div>
-			  <div class="col-sm-6">
-			    <div class="card">
-			      <div class="card-body">
-				  
-			      </div>
-			    </div>
-			  </div>
-			</div>
-
-        </div>
-
-	    
-
-
-
-
-
+		</>
     );
 }
 
-export default App;
+export default SearchAPI;
