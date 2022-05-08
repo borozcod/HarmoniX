@@ -17,13 +17,9 @@ import { Container, Box } from '@mui/material';
 
 const App = () => {
 
-  const [tab, setTab] = useState('analytic');
 
   const [page, setPage] = useState(0);
 
-  const changeTab = (newTab) => {
-    setTab(newTab);
-  }
 
   const changePage = (newPage) =>{
     if(newPage < 6 && newPage >= 0){
@@ -43,46 +39,22 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <Container maxWidth="lg" sx={{
-        margin: '20px auto'
-      }}>
-        {
-          tab === 'analytic' && (
-            <Box sx={{margin: '20px'}}>
-              <Analytics/>
-            </Box>
-          )
-        }
-        {
-          tab === 'generate' && (
-            <Box sx={{margin: '20px'}}>
-              <HomePage/>
-            </Box>
-          )
-        }
-        {/* {
-          tab === 'table' && (
-            <Box sx={{margin: '20px'}}>
-              // add table
-            </Box>
-          )
-        } }
-        
-        <Box sx={{margin: '20px'}}>
-          <NavBar changeTab={changeTab} active={tab} />
-        </Box>
-
-      </Container> */}
-      
-
       
       <Container maxWidth="lg" sx={{
         margin: '20px auto'
       }}>
+
+
         {pages[page]}
-        <Box sx = {{margin: '20px'}}>
-          <NavPage changePage={changePage} page={page} />
-        </Box>
+
+
+        <Container>
+          <Box sx = {{margin: '20px'}}>
+              <NavPage changePage={changePage} page={page} />
+          </Box>
+        </Container>
+        
+      
       </Container>
       {/* <InputFile/>
       <GetRequest/>
