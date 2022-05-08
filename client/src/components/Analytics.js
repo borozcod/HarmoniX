@@ -12,6 +12,7 @@ const Analytics = () => {
     const [attribute, setAttribute] = useState('danceability');
     const [tab, setTab] = useState('pie');
     const [percentData, setPercentData] = useState([0,0,0,0,0,0,0,0,0,0]);
+    const [genres, setGenres] = useState({"tmp": 0});
 
     useEffect(()=> {
         axios.get(`http://localhost:8080/distribution`,
@@ -27,6 +28,36 @@ const Analytics = () => {
         .catch(err => {
             console.log(err)
         })
+        
+        axios.get(`http://localhost:8080/genres`)
+        .then(res => {
+            const data = res.data;
+            const srotedG = [];
+
+            for (var g in data) {
+                srotedG.push([g, data[g]]);
+            }
+
+            srotedG.sort(function(a, b) {
+                return b[1] - a[1];
+            });
+
+            const top100 = srotedG.slice(0, 30);
+            const top100obj = {};
+            for (let index = 0; index < top100.length; index++) {
+                top100obj[top100[index][0]] = top100[index][1]
+            }
+            console.log(top100obj);
+
+
+
+            setGenres(top100obj);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
     }, [])
 
     const handleChange = (event) => {
@@ -47,7 +78,7 @@ const Analytics = () => {
     
     };
 
-    const data = {
+    const pieData = {
         labels: ['0.0 - 0.1', '0.1 - 0.2', '0.2 - 0.3', '0.3 - 0.4', '0.4 - 0.5', '0.5 - 0.6', '0.6 - 0.7', '0.7 - 0.8','0.8 - 0.9', '0.9 - 0.99'],
         datasets: [
           {
@@ -73,6 +104,34 @@ const Analytics = () => {
           },
         ],
       };
+
+    const barData = {
+        labels: Object.keys(genres),
+        datasets: [
+          {
+            label: '# of Votes',
+            data: Object.values(genres),
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
       const baseStyle = {
         color: 'white', fontWeight: '600',
         borderRadius: '0px',
@@ -128,7 +187,7 @@ const Analytics = () => {
                             </Grid>
                             <Grid item xs={8}>
                                 <Box sx={{ maxWidth: 300}}>
-                                    <Pie data={data} />
+                                    <Pie data={pieData} />
                                 </Box>
                             </Grid>
                         </Grid>
@@ -138,9 +197,9 @@ const Analytics = () => {
                 {
                     tab === 'bar' && (
                         <>
-                        <Typography color='white' sx={{marginBottom:'20px'}}>Top genres</Typography>
+                        <Typography color='white' sx={{marginBottom:'20px'}}>Top 30 genres</Typography>
                         <Box sx={{ maxWidth: 800}}>
-                            <Bar data={data} />
+                            <Bar data={barData} />
                         </Box>
                         </>
                     )
