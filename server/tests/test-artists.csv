@@ -1,9 +1,9 @@
 id,followers,genres,name,popularity
-0DheY5irMjBUeLybbCUEZ2,0.0,[],Armid & Amir Zare Pashai feat. Sara Rouzbehani,0
-0DlhY15l3wsrnlfGio2bjU,5.0,[],ปูนา ภาวิณี,0
-0DmRESX2JknGPQyO15yxg7,0.0,[],Sadaa,0
-0DmhnbHjm1qw6NCYPeZNgJ,0.0,[],Tra'gruda,0
-0Dn11fWM7vHQ3rinvWEl4E,2.0,[],Ioannis Panoutsopoulos,0
+0DheY5irMjBUeLybbCUEZ2,0.0,['pop'],Armid & Amir Zare Pashai feat. Sara Rouzbehani,0
+0DlhY15l3wsrnlfGio2bjU,5.0,['pop'],ปูนา ภาวิณี,0
+0DmRESX2JknGPQyO15yxg7,0.0,['pop'],Sadaa,0
+0DmhnbHjm1qw6NCYPeZNgJ,0.0,['pop'],Tra'gruda,0
+0Dn11fWM7vHQ3rinvWEl4E,2.0,['pop'],Ioannis Panoutsopoulos,0
 0DotfDlYMGqkbzfBhcA5r6,7.0,[],Astral Affect,0
 0DqP3bOCiC48L8SM9gK4W8,1.0,[],Yung Seed,0
 0Drs3maQb99iRglyTuxizI,0.0,[],Wi'Ma,0

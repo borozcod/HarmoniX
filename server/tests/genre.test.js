@@ -16,4 +16,7 @@ test('test genre analytic', async () => {
     const csvMng = new CSVManager(file);
     await csvMng.read('artist');
 
+    const genres = csvMng.genreCount('genres')
+    expect(genres).toHaveLength(400);
+
 });

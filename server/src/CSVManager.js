@@ -287,6 +287,40 @@ class CSVManager {
     
         return pct
     } */
+
+    genreCount(colName){
+        var regex = /(?:'[^']+')/g;
+        //var regex = //g;
+        // const objGenre = {};
+        // !objGenre['pop']
+        // -> objGenre['pop'] = 0
+        // else objGenre['pop']++
+
+        // loop each artist
+        //  -> for each genre, (you might need JSON.parse) or regex
+        //      -> objGenre[genre]++;
+
+        const objGenre = {};
+
+        this.data.forEach( row => {
+            var line1 = new String(row[colName]);
+            var found = line1.match(regex);
+
+            if (found) {
+                found.forEach(g => {
+                    if (objGenre[g]){
+                        objGenre[g]++;
+                    }
+                    else {
+                        objGenre[g] = 0;
+                    }
+                })
+            }
+        })
+
+        console.log(objGenre);
+
+    }
 }
 
 module.exports = CSVManager;
