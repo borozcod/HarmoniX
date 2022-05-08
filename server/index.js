@@ -114,6 +114,11 @@ app.get('/distribution', function (req, res) {
 	res.send(data);
 })
 
+app.get('/genres', function (req, res) {
+  const {colName = 'genres'} = req.query;
+  const data = csvMngArtist.genreCount(colName);
+	res.send(data);
+})
 
 app.listen(port, function () {
   console.log(`app listening on port ${port}!`)
