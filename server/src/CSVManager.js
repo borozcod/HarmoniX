@@ -290,15 +290,6 @@ class CSVManager {
 
     genreCount(colName){
         var regex = /(?:'[^']+')/g;
-        //var regex = //g;
-        // const objGenre = {};
-        // !objGenre['pop']
-        // -> objGenre['pop'] = 0
-        // else objGenre['pop']++
-
-        // loop each artist
-        //  -> for each genre, (you might need JSON.parse) or regex
-        //      -> objGenre[genre]++;
 
         const objGenre = {};
 
@@ -312,13 +303,13 @@ class CSVManager {
                         objGenre[g]++;
                     }
                     else {
-                        objGenre[g] = 0;
+                        objGenre[g] = 1;
                     }
                 })
             }
         })
 
-        console.log(objGenre);
+        return objGenre;
 
     }
 }
