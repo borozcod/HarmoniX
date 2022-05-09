@@ -40,7 +40,7 @@ class CSVManager {
      * @return {Promise} 
      * @memberof CSVManager
      */
-    read() {
+    read(type='track') {
         return new Promise((resolve, reject) => {
             this.data = [];
 
@@ -56,7 +56,7 @@ class CSVManager {
                     this.headers = parsedData;
                     headers = false;
                 }else{
-                    const obj = {
+                    var obj = {
                         id: parsedData[0],
                         name: parsedData[1], 
                         popularity: parsedData[2], 
@@ -77,6 +77,15 @@ class CSVManager {
                         valence: parsedData[17], 
                         tempo: parsedData[18], 
                         time_signature: parsedData[19]
+                    }
+                    if(type === 'artist') {
+                        obj = {
+                            id: parsedData[0],
+                            followers: parsedData[1],
+                            genres: parsedData[2],
+                            name: parsedData[3],
+                            popularity: parsedData[4]
+                        }
                     }
                     this.data.push(obj);
                 }
@@ -278,6 +287,31 @@ class CSVManager {
     
         return pct
     } */
+
+    genreCount(colName){
+        var regex = /(?:'[^']+')/g;
+
+        const objGenre = {};
+
+        this.data.forEach( row => {
+            var line1 = new String(row[colName]);
+            var found = line1.match(regex);
+
+            if (found) {
+                found.forEach(g => {
+                    if (objGenre[g]){
+                        objGenre[g]++;
+                    }
+                    else {
+                        objGenre[g] = 1;
+                    }
+                })
+            }
+        })
+
+        return objGenre;
+
+    }
 }
 
 module.exports = CSVManager;
