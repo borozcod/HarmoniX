@@ -6,6 +6,8 @@ import HomePage from './components/HomePage';
 import Analytics from './components/Analytics';
 import NavBar from './components/globals/NavBar';
 
+import SearchAPI from './components/SearchAPI';
+
 import { Container, Box } from '@mui/material';
 
 const App = () => {
@@ -32,6 +34,14 @@ const App = () => {
           tab === 'generate' && (
             <Box sx={{margin: '20px'}}>
               <HomePage/>
+            </Box>
+          )
+        }
+        {/* [+]---adding a tab for search, will update with spotify api later */}
+        {
+          tab === 'search' && (
+            <Box sx={{margin: '20px'}}>
+              <SearchAPI/>
             </Box>
           )
         }
