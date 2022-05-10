@@ -56,7 +56,6 @@ function SearchAPI() {
                 type: "artist"
             }
         })
-
         setAPIartists(data.artists.items)
     }
 
@@ -77,20 +76,33 @@ function SearchAPI() {
 
     const renderArtists = () => {
         return APIartists.map(artist => (
-            <div key={artist.id} onClick= {()=>{generateTracks(artist.id)}}>
-                {artist.images.length ? <img width={"20%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
-                {artist.name}
-            </div>
+			<Button onClick= {()=>{generateTracks(artist.id)}} variant="text" align="left" sx={{width:'100%'}}>
+				<Grid container spacing={2} alignItems="center" >
+					<Grid item xs={3}>
+							{artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
+					</Grid>
+					<Grid item sx={{textAlign:'left'}} xs={6}>
+						<Typography align="left">{artist.name}</Typography>
+						<Button size="small" variant="outlined">Search tracks</Button>
+					</Grid>
+				</Grid>
+			</Button>
         ))
     }
 
     const renderTracks = () => {
 		return tracks.map(track => (
-            <div key={track.id} >
-                {track.album.images.length ? <img width={"10%"} src={track.album.images[0].url} alt=""/> : <div>No Image</div>}
-                {track.name}
-				<button>Add To Playlist</button>
-            </div>
+			<Button variant="text" align="left" sx={{width:'100%'}}>
+				<Grid container spacing={2} alignItems="center" >
+					<Grid item xs={3}>
+					{track.album.images.length ? <img width={"100%"} src={track.album.images[0].url} alt=""/> : <div>No Image</div>}
+					</Grid>
+					<Grid item sx={{textAlign:'left'}} xs={6}>
+						<Typography align="left">{track.name}</Typography>
+						<Button size="small" variant="outlined">Add to playlist</Button>
+					</Grid>
+				</Grid>
+			</Button>
         ))
     }
 
@@ -98,7 +110,7 @@ function SearchAPI() {
 		<>
 			<Card sx={{bgcolor: 'rgba(0, 0, 0, 0.7)'}}>
     		  <CardContent>
-    		    <Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
+    		    <Grid container spacing={0} direction="row" alignItems="flex-start" justifyContent="space-between">
     		      <Grid item xs={4}>
     		        <Typography sx={{fontWeight: 600}} color='white' variant="h3">
     		          Find an Artist
@@ -109,6 +121,7 @@ function SearchAPI() {
 								<Input
 									type="text" 
 									onChange={e => setSearchKey(e.target.value)}
+									sx={{color: '#fff'}}
 									startAdornment={
 										<InputAdornment position="start">
 											<FontAwesomeIcon icon={faMagnifyingGlass} color="rgb(244, 123, 80)" />
@@ -125,7 +138,7 @@ function SearchAPI() {
 					}
     		      </Grid>
     		      <Grid item xs={8} >
-					<Grid container spacing={0} direction="row" alignItems="center" justifyContent="space-between">
+					<Grid container spacing={0} direction="row" alignItems="flex-start" justifyContent="space-between">
 						<Grid item xs={6}>
 							<Typography sx={{fontWeight: 800}} color='white' variant="h4">Artist </Typography>
 							{renderArtists()}
