@@ -49,14 +49,8 @@ const App = () => {
     }
   }
 
-  const changePlayListName = (event) => {
-    event.preventDefault();
-
-    //get the value store in the category
-    const fieldValue = event.target.value;
-
-
-    setplayListName(fieldValue);
+  const changePlayListName = (name) => {
+    setplayListName(name);
   }
 
   const pages = [
