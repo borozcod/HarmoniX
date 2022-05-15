@@ -1,15 +1,16 @@
 import React from 'react'
 import {Grid, Box, Card, CardContent, Typography} from '@mui/material'
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
-const InputPlayListNamePage = ({onGetStarted, changePage, page}) => {
+const InputPlayListNamePage = ({onGetStarted, changePage, page, playListName, changePlayListName}) => {
   return (
     <Card sx={{
       bgcolor: 'rgba(0, 0, 0, 0.7)',
       
     }}>
       <CardContent>
-        <div>InputPlayListNamePage</div>
+        <TextField fullWidth label="Play List Name" id="playListName" type='text' required='required' placeholder='Enter play list name'  onChange={changePlayListName} value = {playListName}/>
         <Grid container spacing={0}
         direction="row"
         alignItems="center"
