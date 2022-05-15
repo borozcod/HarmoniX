@@ -12,6 +12,7 @@ import AddTrackPage from './components/pages/AddTrackPage';
 import AddArtistsPage from './components/pages/AddArtistsPage'
 import InputPlayListNamePage from './components/pages/InputPlayListNamePage'
 import ResultPage from './components/pages/ResultPage'
+import SearchAPI from './components/SearchAPI';
 
 import { Container, Box } from '@mui/material';
 
@@ -76,6 +77,14 @@ const App = () => {
           tab === 'generate' && (
             <Box sx={{margin: '20px'}}>
               {pages[page]}
+            </Box>
+          )
+        }
+        {/* [+]---adding a tab for search, will update with spotify api later */}
+        {
+          tab === 'search' && (
+            <Box sx={{margin: '20px'}}>
+              <SearchAPI/>
             </Box>
           )
         }
