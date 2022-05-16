@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./homePage.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire } from '@fortawesome/free-solid-svg-icons'
@@ -6,7 +6,10 @@ import {Grid, Box, Card, CardContent, Typography} from '@mui/material'
 import { faRecordVinyl} from '@fortawesome/free-solid-svg-icons'
 import Button from '@mui/material/Button';
 
-const HomePage = () => {
+
+const HomePage = ({onGetStarted}) => {
+
+
 
   return (
       <Card sx={{
@@ -30,7 +33,7 @@ const HomePage = () => {
                 <Box sx={{
                   paddingTop: '20px'
                 }}>
-                  <Button variant="contained"> Get Started</Button>
+                  <Button variant="contained" onClick={() => onGetStarted(true)}> Get Started</Button>
                 </Box>
             </Grid>
           </Grid>

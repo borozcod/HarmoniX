@@ -28,3 +28,5 @@ server/files/*.csv
 server/files/*.json
 server/backup/*.csv
 server/logs
+
+server/saved-search/*.json
