@@ -57,7 +57,11 @@ const App = () => {
     <ResultPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>
   ]
 
+  const [data, setData] = useState(null);
 
+  const changeData =(newData) =>{
+    setData(newData);
+  }
 
 
   return (
@@ -88,13 +92,13 @@ const App = () => {
             </Box>
           )
         }
-        {/* {
+        {
           tab === 'table' && (
             <Box sx={{margin: '20px'}}>
-              // add table
+              <Table/>
             </Box>
           )
-        } */}
+        }
         
 
         <Box sx={{margin: '20px'}}>
