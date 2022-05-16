@@ -221,6 +221,8 @@ class CSVManager {
      * @memberof CSVManager
      */
     distribution(colName) {
+        const fs = require('fs');
+
 
         var occurrences = [0,0,0,0,0,0,0,0,0,0]
         const arrSize = this.data.length;
@@ -263,6 +265,14 @@ class CSVManager {
         for(var i = 0; i < occurrences.length; i++){
             divided[i] = occurrences[i]/arrSize * 100;
         }
+
+        const jsonData = JSON.stringify(divided);
+        fs.writeFile('pie_data.json', jsonData, function(err){
+            if (err){
+                console.log(err);
+                //return;
+            }
+        });
 
         return divided;
 
