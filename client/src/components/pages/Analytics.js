@@ -10,6 +10,8 @@ ChartJS.register(ArcElement, Tooltip, CategoryScale, LinearScale, BarElement);
 const Analytics = () => {
 
     const [attribute, setAttribute] = useState('danceability');
+    const [searchAttribute, setSearchAttribute] = useState('');
+    const [savedSearch, setSavedSearch] = useState([]);
     const [tab, setTab] = useState('pie');
     const [percentData, setPercentData] = useState([0,0,0,0,0,0,0,0,0,0]);
     const [genres, setGenres] = useState({"tmp": 0});
@@ -57,6 +59,16 @@ const Analytics = () => {
             console.log(err)
         })
 
+        axios.get(`http://localhost:8080/search-list`)
+        .then(res => {
+            const data = res.data;
+
+            setSavedSearch(data);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
 
     }, [])
 
@@ -65,6 +77,29 @@ const Analytics = () => {
         axios.get(`http://localhost:8080/distribution`,
             {params: {
                 colName: event.target.value,
+            }
+        }
+        )
+        .then(res => {
+            const data = res.data;
+            setPercentData(data);
+            console.log(data)
+            
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    
+    };
+    
+    const handleChangeSearch = (event) => {
+
+        setSearchAttribute(event.target.value);
+
+        axios.get(`http://localhost:8080/distribution`,
+            {params: {
+                colName: attribute,
+                searchID: event.target.value,
             }
         }
         )
@@ -180,11 +215,39 @@ const Analytics = () => {
                                                 borderColor: 'rgb(244, 123, 80)'
                                             }}
                                         >
+
                                         <MenuItem value='danceability'>Danceability</MenuItem>
                                         <MenuItem value='energy'>Energy</MenuItem>
                                         <MenuItem value='speechiness'>Speechiness</MenuItem>
                                         </Select>
                                     </FormControl>
+                                    {
+                                        savedSearch.length > 0 && (
+                                        <FormControl fullWidth sx={{
+                                            marginTop: '20px'
+                                        }}>
+                                            <InputLabel sx={{color: 'rgb(244, 123, 80)'}} id="demo-simple-select-label">Saved Search</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={searchAttribute}
+                                                label="Attribute"
+                                                onChange={handleChangeSearch}
+                                                sx={{
+                                                    color: 'white',
+                                                    borderColor: 'rgb(244, 123, 80)'
+                                                }}
+                                            >
+                                                {savedSearch.map((s,i) => (
+                                                        <MenuItem value={i}>{s}</MenuItem>
+                                                ))}
+    
+                                            
+                                            </Select>
+                                        </FormControl>
+                                        )
+                                    }
+                                    
                                 </Box>
                             </Grid>
                             <Grid item xs={8}>
