@@ -21,6 +21,8 @@ csvMngArtist.read('artist').then(()=> {
 var app = express()
 var port = 8080
 
+var distData;
+
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -51,6 +53,7 @@ app.get('/artist', function (req, res) {
 app.get('/search', function (req, res) {
   const {value, key} = req.query
   const data = csvMngTracks.search(key, value);
+  distData = data;
 	res.send(data);
 })
 

@@ -47,7 +47,7 @@ const Analytics = () => {
             for (let index = 0; index < top100.length; index++) {
                 top100obj[top100[index][0]] = top100[index][1]
             }
-            console.log(top100obj);
+            //console.log(top100obj);
 
 
 
@@ -71,6 +71,8 @@ const Analytics = () => {
         .then(res => {
             const data = res.data;
             setPercentData(data);
+            console.log(data)
+            
         })
         .catch(err => {
             console.log(err)
