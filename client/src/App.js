@@ -95,7 +95,7 @@ const App = () => {
           )
         }
         {/* [+]---adding a tab for search, will update with spotify api later */}
-        {/* {
+       {
           tab === 'table' && (
             <Box sx={{margin: '20px'}}>
               <Table/>
