@@ -7,7 +7,7 @@ const upload = multer({ dest: 'files/' })
 const CSVManager = require('./src/CSVManager');
 const bodyParser = require('body-parser')
 
-const csvMngTracks = new CSVManager(__dirname + "/files/tracks-small.csv");
+const csvMngTracks = new CSVManager(__dirname + "/files/processed_tracks.csv");
 const csvMngArtist = new CSVManager(__dirname + "/files/artists.csv");
 
 csvMngTracks.read().then(()=> {
@@ -37,6 +37,26 @@ app.get('/artist', function (req, res) {
   const {start = 0, limit = pageSize} = req.query;
 
   const data = csvMngArtist.data.slice(start, limit);
+  if(data.length < pageSize){
+    data.push({
+      nextPage: null
+    })
+  } else {
+    data.push({
+      nextPage: `http://localhost:8080/artist?start=${limit}&limit=${parseInt(limit) + pageSize}`
+    })
+    
+  }
+
+  res.send(data)
+})
+
+app.get('/tracks', function (req, res) {
+  
+  const pageSize = 50;
+  const {start = 0, limit = pageSize} = req.query;
+
+  const data = csvMngTracks.data.slice(start, limit);
   if(data.length < pageSize){
     data.push({
       nextPage: null
@@ -131,13 +151,11 @@ app.post('/add', async function(req,res){
 app.get('/distribution', function (req, res) {
   const {colName, searchID = false} = req.query
 
-  if (fs.existsSync(__dirname + `/saved-search/search-${searchID}.json`) && searchID) {
-    let savedData = fs.readFileSync(__dirname + `/saved-search/search-${searchID}.json`);
+  if (fs.existsSync(__dirname + `/cache/${colName}-distribution.json`)) {
+    let savedData = fs.readFileSync(__dirname + `/cache/${colName}-distribution.json`);
+    let formatData = JSON.parse(savedData);
 
-    let searchData = JSON.parse(savedData);
-    
-    const data = csvMngTracks.distribution(colName, searchData);
-    res.send(data);
+    res.send(formatData);
   } else {
     const data = csvMngTracks.distribution(colName);
     res.send(data);

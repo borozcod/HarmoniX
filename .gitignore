@@ -31,3 +31,6 @@ server/backup/*.csv
 server/logs
 
 server/saved-search/*.json
+
+server/cache/*.csv
+server/cache/*.json
