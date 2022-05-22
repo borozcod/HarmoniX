@@ -28,7 +28,9 @@ const App = () => {
 
   const [started, setStarted] = useState(false);
 
-  const [playListName, setplayListName] = useState('')
+  const [playListName, setplayListName] = useState('');
+
+  const [moodsearch, setMoodSearch] = useState([]);
 
 
   const changePage = (newPage) =>{
@@ -53,9 +55,13 @@ const App = () => {
     setplayListName(name);
   }
 
+  const changeMoodSearch = (newMood) =>{
+    setMoodSearch(newMood);
+  }
+
   const pages = [
     <HomePage onGetStarted={onGetStarted}/>,
-    <MoodSearchPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <MoodSearchPage onGetStarted={onGetStarted} changePage={changePage} page={page} changeMoodSearch={changeMoodSearch}/>,
     <AddTrackPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
     <InputPlayListNamePage onGetStarted={onGetStarted} changePage={changePage} page={page} playListName={playListName} changePlayListName={changePlayListName}/>,
     <ResultPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>
