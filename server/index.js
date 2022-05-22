@@ -5,10 +5,12 @@ const cors = require('cors')
 const multer  = require('multer')
 const upload = multer({ dest: 'files/' })
 const CSVManager = require('./src/CSVManager');
+const CSVManager = require('./src/DataAnalyzer');
 const bodyParser = require('body-parser')
 
 const csvMngTracks = new CSVManager(__dirname + "/files/tracks-small.csv");
 const csvMngArtist = new CSVManager(__dirname + "/files/artists.csv");
+const dataAnalyzer = new DataAnalyzer();
 
 csvMngTracks.read().then(()=> {
   console.log("added tracks in memory");
@@ -136,17 +138,19 @@ app.get('/distribution', function (req, res) {
 
     let searchData = JSON.parse(savedData);
     
-    const data = csvMngTracks.distribution(colName, searchData);
+    const data = dataAnalyzer.distribution(colName, searchData);
     res.send(data);
   } else {
-    const data = csvMngTracks.distribution(colName);
+    const data = dataAnalyzer.distribution(colName, csvMngTracks.data);
     res.send(data);
   }
 })
 
 app.get('/genres', function (req, res) {
   const {colName = 'genres'} = req.query;
-  const data = csvMngArtist.genreCount(colName);
+
+  const data = dataAnalyzer.genreCount(colName, csvMngArtist.data);
+
 	res.send(data);
 })
 
