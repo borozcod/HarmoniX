@@ -39,9 +39,6 @@ const NavBar = ({changeTab, active, changePage, page, started, onGetStarted}) =>
                         <Grid item xs={2}>
                             <Button onClick={()=> changeTab('table')} varient="text" sx={active === 'table' ? activeStyle : baseStyle } size='small'>Table</Button>
                         </Grid>
-                        <Grid item xs={2}>
-                            <Button onClick={()=> changeTab('search')} varient="text" sx={active === 'search' ? activeStyle : baseStyle } size='small'>Search</Button>
-                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={2}></Grid>

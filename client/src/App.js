@@ -9,7 +9,6 @@ import NavBar from './components/globals/NavBar';
 import HomePage from './components/pages/HomePage';
 import MoodSearchPage from './components/pages/MoodSearchPage';
 import AddTrackPage from './components/pages/AddTrackPage';
-import AddArtistsPage from './components/pages/AddArtistsPage'
 import InputPlayListNamePage from './components/pages/InputPlayListNamePage'
 import ResultPage from './components/pages/ResultPage'
 import SearchAPI from './components/SearchAPI';
@@ -28,6 +27,10 @@ const App = () => {
   const [page, setPage] = useState(0);
 
   const [started, setStarted] = useState(false);
+
+  const [playListName, setplayListName] = useState('');
+
+  const [moodsearch, setMoodSearch] = useState([]);
 
 
   const changePage = (newPage) =>{
@@ -48,12 +51,19 @@ const App = () => {
     }
   }
 
+  const changePlayListName = (name) => {
+    setplayListName(name);
+  }
+
+  const changeMoodSearch = (newMood) =>{
+    setMoodSearch(newMood);
+  }
+
   const pages = [
     <HomePage onGetStarted={onGetStarted}/>,
-    <MoodSearchPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
-    <AddArtistsPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <MoodSearchPage onGetStarted={onGetStarted} changePage={changePage} page={page} changeMoodSearch={changeMoodSearch}/>,
     <AddTrackPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
-    <InputPlayListNamePage onGetStarted={onGetStarted} changePage={changePage} page={page}/>,
+    <InputPlayListNamePage onGetStarted={onGetStarted} changePage={changePage} page={page} playListName={playListName} changePlayListName={changePlayListName}/>,
     <ResultPage onGetStarted={onGetStarted} changePage={changePage} page={page}/>
   ]
 
@@ -85,14 +95,7 @@ const App = () => {
           )
         }
         {/* [+]---adding a tab for search, will update with spotify api later */}
-        {
-          tab === 'search' && (
-            <Box sx={{margin: '20px'}}>
-              <SearchAPI/>
-            </Box>
-          )
-        }
-        {
+        {/* {
           tab === 'table' && (
             <Box sx={{margin: '20px'}}>
               <Table/>

@@ -1,6 +1,7 @@
 import React from 'react'
 import {Grid, Box, Card, CardContent, Typography} from '@mui/material'
 import Button from '@mui/material/Button';
+import SearchAPI from '../SearchAPI';
 
 const AddTrackPage = ({onGetStarted, changePage, page}) => {
   return (
@@ -9,7 +10,7 @@ const AddTrackPage = ({onGetStarted, changePage, page}) => {
       
     }}>
       <CardContent>
-        <div>AddTrackPage</div>
+        <SearchAPI/>
         <Grid container spacing={0}
         direction="row"
         alignItems="center"
