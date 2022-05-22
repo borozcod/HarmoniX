@@ -21,6 +21,9 @@ csvMngArtist.read('artist').then(()=> {
 var app = express()
 var port = 8080
 
+var searchList = [];
+var searchIndex = 0;
+
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -48,10 +51,27 @@ app.get('/artist', function (req, res) {
   res.send(data)
 })
 
+app.get('/search-list', function (req, res) {
+	res.send(searchList);
+})
+
 app.get('/search', function (req, res) {
-  const {value, key} = req.query
-  const data = csvMngTracks.search(key, value);
-	res.send(data);
+  const {value, key, id = false} = req.query
+
+  if (fs.existsSync(__dirname + `/saved-search/search-${id}.json`) && id) {
+
+    let savedData = fs.readFileSync(__dirname + `/saved-search/search-${id}.json`);
+
+    let searchData = JSON.parse(savedData);
+    res.send(searchData);
+  } else {
+    const data = csvMngTracks.search(key, value, searchIndex);
+
+    searchList.push(`Search #${searchIndex}`);
+    searchIndex++;
+
+    res.send(data);
+  }
 })
 
 app.post('/import', upload.single('csv'), async function (req, res) {
@@ -109,9 +129,19 @@ app.post('/add', async function(req,res){
 })
 
 app.get('/distribution', function (req, res) {
-  const {colName} = req.query
-  const data = csvMngTracks.distribution(colName);
-	res.send(data);
+  const {colName, searchID = false} = req.query
+
+  if (fs.existsSync(__dirname + `/saved-search/search-${searchID}.json`) && searchID) {
+    let savedData = fs.readFileSync(__dirname + `/saved-search/search-${searchID}.json`);
+
+    let searchData = JSON.parse(savedData);
+    
+    const data = csvMngTracks.distribution(colName, searchData);
+    res.send(data);
+  } else {
+    const data = csvMngTracks.distribution(colName);
+    res.send(data);
+  }
 })
 
 app.get('/genres', function (req, res) {

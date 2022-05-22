@@ -155,7 +155,7 @@ class CSVManager {
      * @return {Array} 
      * @memberof CSVManager
      */
-    search(key, value) {
+    search(key, value, id = 0) {
         const matches = [];
         this.data.forEach(element => {
             //if(element[key] === value) {
@@ -163,6 +163,14 @@ class CSVManager {
             value = value.toLowerCase()
             if (track_value.indexOf(value) !== -1) {
                 matches.push(element);
+            }
+        });
+
+        const jsonData = JSON.stringify(matches);
+        fs.writeFile(__dirname + `/../saved-search/search-${id}.json`, jsonData, function(err){
+            if (err){
+                console.log(err);
+                //return;
             }
         });
 
@@ -220,12 +228,16 @@ class CSVManager {
      * @return {Array} 
      * @memberof CSVManager
      */
-    distribution(colName) {
+    distribution(colName, data = false) {
+        const fs = require('fs');
+
 
         var occurrences = [0,0,0,0,0,0,0,0,0,0]
         const arrSize = this.data.length;
 
-        this.data.forEach( row => {
+        let searchData = data ? data : this.data;
+
+        searchData.forEach( row => {
             const colVal = parseFloat(row[colName])
             if (colVal <= 0.1) {
                 occurrences[0]++;
@@ -263,6 +275,14 @@ class CSVManager {
         for(var i = 0; i < occurrences.length; i++){
             divided[i] = occurrences[i]/arrSize * 100;
         }
+
+        const jsonData = JSON.stringify(divided);
+        fs.writeFile('pie_data.json', jsonData, function(err){
+            if (err){
+                console.log(err);
+                //return;
+            }
+        });
 
         return divided;
 
