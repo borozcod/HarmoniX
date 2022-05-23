@@ -13,6 +13,7 @@ class CSVManager {
         this.headers = [];
         this.data = [];
         this.file = file;
+        this.savedDistributions = []
     }
 
     /**
@@ -184,6 +185,9 @@ class CSVManager {
                 console.log('updated song');
             }
         })
+        this.savedDistributions.forEach((d) => {
+            this.distribution(d);
+        })
     }
 	
 	delete_row(row){
@@ -231,6 +235,9 @@ class CSVManager {
     distribution(colName, data = false) {
         const fs = require('fs');
 
+        if(!this.savedDistributions.includes(colName)){
+            this.savedDistributions.push(colName);
+        }
 
         var occurrences = [0,0,0,0,0,0,0,0,0,0]
         const arrSize = this.data.length;
@@ -277,15 +284,14 @@ class CSVManager {
         }
 
         const jsonData = JSON.stringify(divided);
-        fs.writeFile('pie_data.json', jsonData, function(err){
+
+        fs.writeFile(`${__dirname}/../cache/${colName}-distribution.json`, jsonData, function(err){
             if (err){
                 console.log(err);
-                //return;
             }
         });
 
         return divided;
-
     }
 
 /*     percentRank(array, n) {

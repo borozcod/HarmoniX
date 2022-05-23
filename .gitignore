@@ -26,7 +26,11 @@ yarn-error.log*
 .idea/
 server/files/*.csv
 server/files/*.json
+server/files/__pycache__
 server/backup/*.csv
 server/logs
 
 server/saved-search/*.json
+
+server/cache/*.csv
+server/cache/*.json

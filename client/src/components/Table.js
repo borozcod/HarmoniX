@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useState, Fragment, useEffect} from 'react'
 import json_data from '../mock-data.json'
 import Search from "./Search"
 import ReadOnlyRow from './ReadOnlyRow'
 import EditableRow from './EditableRow'
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,12 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-import {useState, Fragment} from 'react'
-
 import axios from 'axios';
-
-
 
 
 const DataTable = () => {
@@ -24,7 +18,16 @@ const DataTable = () => {
 
   const [rows, setRows] = useState(json_data);
 
-
+    useEffect(() => {
+        axios.get(`http://localhost:8080/tracks`)
+        .then(res => {
+            const data = res.data;
+            setRows(data);
+            })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
 
   //this is for edit row
   const [editId, setEditId] = useState(null);
@@ -57,8 +60,6 @@ const DataTable = () => {
   const onSearchHandler = (newData) => {
 	  setRows(newData)
   }
-
-
 
   const columns =  [
     {id: 'id', label: "Id", minWidth: 170},
@@ -245,10 +246,7 @@ const handleEditCancel = (e) => {
     setEditId(null);
 }
 
-    
   return (
-
-
     <div>
     
         <form onSubmit={handleEditFormSubmit}>
