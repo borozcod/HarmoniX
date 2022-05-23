@@ -125,27 +125,36 @@ def write_to_csv(field_names, data, file_name = write_file_name):
 
 def main():
 
+    # Loads the CSV's
     csv_field_names, csv_data = load_csv()
     artists_field_names, artists_data = load_artists()
     
+    # Adding genres to the tracks csv
     new_field_names, new_data = add_genres_to_tracks(csv_field_names, csv_data, artists_field_names, artists_data)
     genres_count(new_field_names, new_data)
     popularity_range(new_field_names, new_data)
     
+    # Remove any songs without a genre
     new_field_names, new_data, removed_tracks = remove_empty_genres_tracks(new_field_names, new_data)
     genres_count(new_field_names, new_data)
-    genres_count(new_field_names, removed_tracks)
+    # genres_count(new_field_names, removed_tracks)
     popularity_range(new_field_names, new_data)
+    popularity_count(new_field_names, new_data, 90, 100)
     
-    new_field_names, new_data, removed_tracks = remove_lower_popular_tracks(new_field_names, new_data, 50)
+    # Remove any songs with a popularity lower than #
+    new_field_names, new_data, removed_tracks = remove_lower_popular_tracks(new_field_names, new_data, 30)
     genres_count(new_field_names, new_data)
-    genres_count(new_field_names, removed_tracks)
+    # genres_count(new_field_names, removed_tracks)
     popularity_range(new_field_names, new_data)
     
-    top_frequent_genres(new_field_names, new_data)
-    top_genres(new_field_names, new_data)
+    top_frequent_genres(new_field_names, new_data, 10)
+    top_genres(new_field_names, new_data, 300)
     
-    write_to_csv(new_field_names, new_data)
+    top_song_for_genre(new_field_names, new_data, "j-pop")
+    top_song_for_genre(new_field_names, new_data, "mandopop")
+
+    
+    # write_to_csv(new_field_names, new_data)
     
 
 main()

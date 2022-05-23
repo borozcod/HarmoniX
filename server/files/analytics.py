@@ -183,6 +183,37 @@ def top_genres(field_names, data, top = 10):
     
     return sorted_genres_score
 
+def top_song_for_genre(field_names, data, input_genre, top = 10):
+    
+    tracks_score = {}
+    tracks_data = {}
+    
+    if full_trace: print("[Count] List most popular songs for", input_genre)
+    start_time = time.time()
+    
+    for track in data:
+        if "genres" not in track.keys():
+            if trace: print("[Count] ERROR GENRES NOT IN DATA FIELD NAMES")
+            return
+        
+        if input_genre in string_to_list(track["genres"]):
+            
+            tracks_score[track['id']] = int(track['popularity'])
+            tracks_data[track['id']] = track
+    
+    sorted_tracks_score = sorted(tracks_score.items(), key=lambda x: x[1], reverse=True)
+    
+    for index in range(top):
+        track_id = sorted_tracks_score[index][0]
+        track_name = tracks_data[track_id]['name']
+        track_artists = ' '.join(string_to_list(tracks_data[track_id]['artists']))
+        if trace: print("[Count] #", index+1, ":", track_name, "by", track_artists, "with", sorted_tracks_score[index][1], "score.")
+    
+    end_time=time.time()
+    if trace: print("[Count]", len(tracks_data), "songs in the genre.", '%.2f'%(end_time-start_time),"seconds")
+    
+    return sorted_tracks_score
+
 
 def string_to_list(input_string):
     input_string = input_string[1:-1]
