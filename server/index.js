@@ -6,9 +6,9 @@ const multer  = require('multer')
 const upload = multer({ dest: 'files/' })
 const CSVManager = require('./src/CSVManager');
 const bodyParser = require('body-parser')
-
 const csvMngTracks = new CSVManager(__dirname + "/files/processed_tracks.csv");
 const csvMngArtist = new CSVManager(__dirname + "/files/artists.csv");
+const csvMngUserPlaylist = new CSVManager(__dirname + "/files/userPlaylist.csv");
 
 csvMngTracks.read().then(()=> {
   console.log("added tracks in memory");
@@ -17,6 +17,11 @@ csvMngTracks.read().then(()=> {
 csvMngArtist.read('artist').then(()=> {
   console.log("added artist in memory");
 })
+
+csvMngUserPlaylist.read().then(()=> {
+  console.log("added user playlist in memory");
+})
+
 
 var app = express()
 var port = 8080
@@ -32,10 +37,8 @@ app.get('/', function (req, res) {
 })
 
 app.get('/artist', function (req, res) {
-  
   const pageSize = 10000;
   const {start = 0, limit = pageSize} = req.query;
-
   const data = csvMngArtist.data.slice(start, limit);
   if(data.length < pageSize){
     data.push({
@@ -44,10 +47,8 @@ app.get('/artist', function (req, res) {
   } else {
     data.push({
       nextPage: `http://localhost:8080/artist?start=${limit}&limit=${parseInt(limit) + pageSize}`
-    })
-    
+    })  
   }
-
   res.send(data)
 })
 
@@ -103,19 +104,14 @@ app.post('/import', upload.single('csv'), async function (req, res) {
     res.sendStatus(401);
     return;
   }
-
   await csvMngTracks.backup();
-
   fs.renameSync(file.path, __dirname + '/files/tracks-small.csv');
-
   res.sendStatus(200);
 })
 
 
 app.post('/update', async function(req,res){
-
   const form = req.body;
-
   //console.log(form);
   //console.log(form.id);
   csvMngTracks.update(form);
@@ -125,28 +121,36 @@ app.post('/update', async function(req,res){
 })
 
 app.post('/delete', async function(req,res){
-
   const form = req.body;
-
   //console.log(form);
   console.log(form.id);
   csvMngTracks.delete_row(form);
   csvMngTracks.updateCSV()
-
   res.sendStatus(200);
 })
 
 app.post('/add', async function(req,res){
-
+  console.log('--- index.js/add  ---');
   const form = req.body;
-
-  //console.log(form);
-  console.log(form.id);
+  console.log(form);
+  //console.log(form.id);
   csvMngTracks.add_row(form);
   csvMngTracks.updateCSV()
-
   res.sendStatus(200);
 })
+
+//[+]------------  for user playlist  ------------
+app.post('/playlist_add', async function(req,res){
+  console.log('--- index.js/playlist_add  ---');
+  const form = req.body;
+  //console.log(form);
+  console.log(form);
+  csvMngUserPlaylist.add_row(form);
+  csvMngUserPlaylist.updateCSV()
+  res.sendStatus(200);
+})
+//----------------------------------------------//
+
 
 app.get('/distribution', function (req, res) {
   const {colName, searchID = false} = req.query
@@ -171,3 +175,6 @@ app.get('/genres', function (req, res) {
 app.listen(port, function () {
   console.log(`app listening on port ${port}!`)
 })
+
+
+

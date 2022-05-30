@@ -201,8 +201,13 @@ class CSVManager {
 	}
 	
 	add_row(row){
-		this.data.push(row)
-		console.log('added song');
+        console.log('--- add_row: --- ');
+        console.log(row.id)
+        this.data.push(row)
+		//console.log('added song');
+        //fs.writeFileSync(this.file, "\nthis is a string sample");
+        //console.log(this.data[this.data.length - 2,this.data.length - 1])
+  
 	}
 
 
@@ -213,6 +218,7 @@ class CSVManager {
      * @memberof CSVManager
      */
     updateCSV() {
+        console.log("---updateCSV ---")
         this.backup();
 
         var csvString = '';
@@ -224,6 +230,8 @@ class CSVManager {
         });
         // if this get's to long we can try and us appendFileSync
         fs.writeFileSync(this.file, csvString);
+
+        
     }
 
     /**
