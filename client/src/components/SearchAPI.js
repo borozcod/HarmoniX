@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 //	[x] - search for artists using spotify api
 //  [x] - display artist picture upon searching
 //  [x] - generate top tracks, with "add to playlist" button for each track
-//  [] - beautify
+//  [x] - beautify
 //  [] - implment "add to playlist" button for custom playlist creation
 
 function SearchAPI() {
@@ -29,10 +29,8 @@ function SearchAPI() {
     useEffect(() => {
         const hash = window.location.hash
         let token = window.localStorage.getItem("token")
-
         if (!token && hash) {
             token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-
             window.location.hash = ""
             window.localStorage.setItem("token", token)
         }
@@ -61,7 +59,6 @@ function SearchAPI() {
 
 	const generateTracks = (id) => {
 		console.log(id)
-		//display = !display;
 		axios(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,{
 			'method': 'GET',
 			'headers': {
@@ -90,6 +87,8 @@ function SearchAPI() {
         ))
     }
 
+
+
     const renderTracks = () => {
 		return tracks.map(track => (
 			<Button variant="text" align="left" sx={{width:'100%'}}>
@@ -99,12 +98,76 @@ function SearchAPI() {
 					</Grid>
 					<Grid item sx={{textAlign:'left'}} xs={6}>
 						<Typography align="left">{track.name}</Typography>
-						<Button size="small" variant="outlined">Add to playlist</Button>
+						<Button size="small" onClick= {()=>{add2Playlist(track)}} variant="outlined">Add to playlist</Button>
 					</Grid>
 				</Grid>
 			</Button>
         ))
     }
+
+
+	const add2Playlist = (track) => {
+
+		console.log("add2Playlist accessed")
+		console.log(track.id)
+		var carveID = '35iwgR4jXetI318WEWsa1Q'
+
+		axios.get(`http://localhost:8080/search`,
+		{params: 
+			{
+				value: track.id,
+				key: 'id'
+			}
+		}).then(res => {
+			const data = res.data;
+			console.log(data[0]) 
+			if(data.length == 0){
+				axios.post(`http://localhost:8080/playlist_add`,
+				{	id: track.id,
+					name: track.name, 
+					popularity: track.popularity, 
+					duration_ms: track.duration_ms, 
+					explicit: track.explicit, 
+					artists: track.artists[0]['name'], 
+					id_artists: track.artists[0]['id'], 
+					release_date: track.release_date, 
+					danceability: track.danceability, 
+					energy: track.energy, 
+					key: track.key, 
+					loudness: track.loudness, 
+					mode: track.mode, 
+					speechiness: track.speechiness, 
+					acousticness: track.acousticness, 
+					instrumentalness: track.instrumentalness, 
+					liveness: track.liveness, 
+					valence: track.valence,
+					tempo: track.tempo, 
+					time_signature: track.time_signature
+				}).then(res => {
+					const data = res.data;
+					console.log(data)
+					//onSearchHandler(data)  
+				}).catch(err => {console.log(err)})
+			} 
+			else{
+				axios.post(`http://localhost:8080/playlist_add`,data[0])
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
     return (
 		<>
@@ -157,3 +220,5 @@ function SearchAPI() {
 }
 
 export default SearchAPI;
+
+

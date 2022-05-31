@@ -8,7 +8,9 @@ const CSVManager = require('./src/CSVManager');
 const bodyParser = require('body-parser')
 const csvMngTracks = new CSVManager(__dirname + "/files/processed_tracks.csv");
 const csvMngArtist = new CSVManager(__dirname + "/files/artists.csv");
+
 const csvMngUserPlaylist = new CSVManager(__dirname + "/files/userPlaylist.csv");
+// const csvMngUserPlaylist = new CSVManager(__dirname + "/files/tracks-small.csv");
 
 csvMngTracks.read().then(()=> {
   console.log("added tracks in memory");
@@ -147,6 +149,7 @@ app.post('/playlist_add', async function(req,res){
   console.log(form);
   csvMngUserPlaylist.add_row(form);
   csvMngUserPlaylist.updateCSV()
+  //csvMngUserPlaylist.updateStats(form)
   res.sendStatus(200);
 })
 //----------------------------------------------//
