@@ -27,7 +27,7 @@ csvMngUserPlaylist.read().then(()=> {
 
 var app = express()
 var port = 8080
-
+var playList = [];
 var searchList = [];
 var searchIndex = 0;
 
@@ -141,18 +141,39 @@ app.post('/add', async function(req,res){
   res.sendStatus(200);
 })
 
-//[+]------------  for user playlist  ------------
+//[+]------------  for user playlist  ----------------------------------------------------------------[+]
 app.post('/playlist_add', async function(req,res){
   console.log('--- index.js/playlist_add  ---');
   const form = req.body;
-  //console.log(form);
   console.log(form);
   csvMngUserPlaylist.add_row(form);
   csvMngUserPlaylist.updateCSV()
-  //csvMngUserPlaylist.updateStats(form)
+  playList.push(form)
   res.sendStatus(200);
 })
-//----------------------------------------------//
+
+app.get('/playlist', function (req, res) {
+  // const pageSize = 50;
+  // const {start = 0, limit = pageSize} = req.query;
+
+  // const data = csvMngTracks.data.slice(start, limit);
+  // if(data.length < pageSize){
+  //   data.push({
+  //     nextPage: null
+  //   })
+  // } else {
+  //   data.push({
+  //     nextPage: `http://localhost:8080/artist?start=${limit}&limit=${parseInt(limit) + pageSize}`
+  //   })
+  // }
+  // res.send(data)
+
+
+  const {start = 0, limit = 5} = req.query;
+  res.send(csvMngUserPlaylist.data.slice(start,limit))
+  //res.send(playList)
+})
+//-------------------------------------------------------------------------------------------------//
 
 
 app.get('/distribution', function (req, res) {
