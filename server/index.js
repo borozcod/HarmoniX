@@ -6,9 +6,7 @@ const multer  = require('multer')
 const upload = multer({ dest: 'files/' })
 const CSVManager = require('./src/CSVManager');
 const bodyParser = require('body-parser')
-
-const csvMngTracks = new CSVManager(__dirname + "/files/tracks-small.csv");
-//const csvMngTracks = new CSVManager(__dirname + "/files/tracks.csv");
+const csvMngTracks = new CSVManager(__dirname + "/files/processed_tracks.csv");
 const csvMngArtist = new CSVManager(__dirname + "/files/artists.csv");
 
 const csvMngUserPlaylist = new CSVManager(__dirname + "/files/userPlaylist.csv");
@@ -29,6 +27,9 @@ csvMngUserPlaylist.read().then(()=> {
 
 var app = express()
 var port = 8080
+
+var searchList = [];
+var searchIndex = 0;
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -53,10 +54,47 @@ app.get('/artist', function (req, res) {
   res.send(data)
 })
 
+app.get('/tracks', function (req, res) {
+  
+  const pageSize = 50;
+  const {start = 0, limit = pageSize} = req.query;
+
+  const data = csvMngTracks.data.slice(start, limit);
+  if(data.length < pageSize){
+    data.push({
+      nextPage: null
+    })
+  } else {
+    data.push({
+      nextPage: `http://localhost:8080/artist?start=${limit}&limit=${parseInt(limit) + pageSize}`
+    })
+    
+  }
+
+  res.send(data)
+})
+
+app.get('/search-list', function (req, res) {
+	res.send(searchList);
+})
+
 app.get('/search', function (req, res) {
-  const {value, key} = req.query
-  const data = csvMngTracks.search(key, value);
-	res.send(data);
+  const {value, key, id = false} = req.query
+
+  if (fs.existsSync(__dirname + `/saved-search/search-${id}.json`) && id) {
+
+    let savedData = fs.readFileSync(__dirname + `/saved-search/search-${id}.json`);
+
+    let searchData = JSON.parse(savedData);
+    res.send(searchData);
+  } else {
+    const data = csvMngTracks.search(key, value, searchIndex);
+
+    searchList.push(`Search #${searchIndex}`);
+    searchIndex++;
+
+    res.send(data);
+  }
 })
 
 app.post('/import', upload.single('csv'), async function (req, res) {
@@ -118,9 +156,17 @@ app.post('/playlist_add', async function(req,res){
 
 
 app.get('/distribution', function (req, res) {
-  const {colName} = req.query
-  const data = csvMngTracks.distribution(colName);
-	res.send(data);
+  const {colName, searchID = false} = req.query
+
+  if (fs.existsSync(__dirname + `/cache/${colName}-distribution.json`)) {
+    let savedData = fs.readFileSync(__dirname + `/cache/${colName}-distribution.json`);
+    let formatData = JSON.parse(savedData);
+
+    res.send(formatData);
+  } else {
+    const data = csvMngTracks.distribution(colName);
+    res.send(data);
+  }
 })
 
 app.get('/genres', function (req, res) {

@@ -4,7 +4,7 @@ import {Grid, Container, Typography} from '@mui/material'
 import { faWaveSquare } from '@fortawesome/free-solid-svg-icons'
 import Button from '@mui/material/Button';
 
-const NavBar = ({changeTab, active}) => {
+const NavBar = ({changeTab, active, changePage, page, started, onGetStarted}) => {
 
     const baseStyle = {
         color: 'white', fontWeight: '600',
@@ -28,6 +28,7 @@ const NavBar = ({changeTab, active}) => {
                 </Grid>
                 <Grid item xs={8}>
                     <Grid container justifyContent="center" spacing={0}>
+
                         <Grid item xs={2}>
                             <Button onClick={()=> changeTab('analytic')} varient="text" sx={active === 'analytic' ? activeStyle : baseStyle } size='small'>Analytic</Button>
                         </Grid>
@@ -37,9 +38,6 @@ const NavBar = ({changeTab, active}) => {
 
                         <Grid item xs={2}>
                             <Button onClick={()=> changeTab('table')} varient="text" sx={active === 'table' ? activeStyle : baseStyle } size='small'>Table</Button>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button onClick={()=> changeTab('search')} varient="text" sx={active === 'search' ? activeStyle : baseStyle } size='small'>Search</Button>
                         </Grid>
                     </Grid>
                 </Grid>
